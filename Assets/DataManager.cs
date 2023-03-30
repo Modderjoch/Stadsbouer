@@ -4,8 +4,11 @@ using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
-    [HideInInspector] public string playerOneName;
-    [HideInInspector] public string playerTwoName;
+    public string playerOneName;
+    public string playerTwoName;
+
+    public int playerOneScore;
+    public int playerTwoScore;
 
     public List<string> players;
 

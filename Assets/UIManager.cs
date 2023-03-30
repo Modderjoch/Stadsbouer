@@ -13,6 +13,11 @@ public class UIManager : MonoBehaviour
     [HideInInspector] public string playerOneName;
     [HideInInspector] public string playerTwoName;
 
+    [SerializeField] private TextMeshProUGUI playerOneScoreText;
+    [SerializeField] private TextMeshProUGUI playerTwoScoreText;
+
+    [SerializeField] private TextMeshProUGUI timerText;
+
     public List<GameObject> activePlayer;
 
     public void StorePlayerNames()
@@ -54,6 +59,27 @@ public class UIManager : MonoBehaviour
             activePlayer[1].SetActive(true);
             activePlayer[0].SetActive(false);
         }
+    }
+
+    public void UpdateScoreUI(int currentPlayer)
+    {
+        switch (currentPlayer)
+        {
+            case 0:
+                playerOneScoreText.text = DataManager.Instance.playerOneScore.ToString();
+                break;
+            case 1:
+                playerTwoScoreText.text = DataManager.Instance.playerTwoScore.ToString();
+                break;
+            default:
+                Debug.Log("No active player/score attribute found.");
+                break;
+        }
+    }
+
+    public void UpdateTimerUI(string timer)
+    {
+        timerText.text = timer;
     }
 
     public void NextScene()
