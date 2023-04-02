@@ -5,24 +5,55 @@ using TMPro;
 
 public class GameManager : MonoBehaviour
 {
+    [Header("Managers")]
     [SerializeField] private UIManager uiManager;
+    [SerializeField] private CameraManager cameraManager;
+    [SerializeField] private GameObject dataManager;
+
+    [Header("Hands")]
+
+    public int handSize = 10;
+    [SerializeField] private GameObject playerOneHand;
+    [SerializeField] private GameObject playerTwoHand;
+
+    [SerializeField] private List<GameObject> oneHandSlots;
+    [SerializeField] private List<GameObject> twoHandSlots;
+    [SerializeField] private List<GameObject> oneCards;
+    [SerializeField] private List<GameObject> twoCards;
+
+    [SerializeField] private GameObject handSlotPrefab;
+    [SerializeField] private GameObject cardPrefab;
 
     public float timeLeft;
     private float timerTime;
     public bool timerIsOn = false;
 
-    private void Start()
+    private void Awake()
     {
-        if (DataManager.Instance.players != null)
+        if (DataManager.Instance == null)
+        {
+            Instantiate(dataManager);
+            DataManager.Instance.players.Add("Player 1");
+            DataManager.Instance.players.Add("Player 2");
+        }
+
+        if (DataManager.Instance != null)
         {
             DataManager.Instance.currentPlayerIndex = Random.Range(0, 2);
             int i = ReturnActivePlayer();
-            GameObject.Find("StartingPlayer").GetComponent<TextMeshProUGUI>().text = "The starting player is: " + DataManager.Instance.players[i];
 
-            if(uiManager != null) { uiManager.ActivePlayerUI(); }
+            if (uiManager != null) { uiManager.ActivePlayerUI(); }
+            if (cameraManager != null) { cameraManager.NextPlayerCamera(DataManager.Instance.currentPlayerIndex); }
         }
 
         timerTime = timeLeft;
+        TimerSwitch();
+    }
+
+    private void Start()
+    {
+        SetHandPosition();
+        CreateHandSlots();
     }
 
     public void NextPlayer()
@@ -36,6 +67,7 @@ public class GameManager : MonoBehaviour
             DataManager.Instance.currentPlayerIndex++;
         }
 
+        cameraManager.NextPlayerCamera(DataManager.Instance.currentPlayerIndex);
         ResetTimer();
         if (uiManager != null) { uiManager.ActivePlayerUI(); }
     }
@@ -109,5 +141,33 @@ public class GameManager : MonoBehaviour
     {
         timeLeft = timerTime;
         timerIsOn = true;
+    }
+
+    private void SetHandPosition()
+    {
+        playerOneHand.transform.position = new Vector3(-1.3f * handSize, playerOneHand.transform.position.y, playerOneHand.transform.position.z);
+        playerTwoHand.transform.position = new Vector3(-1.3f * handSize, playerTwoHand.transform.position.y, playerTwoHand.transform.position.z);
+    }
+
+    private void CreateHandSlots()
+    {
+        for(int i = 0; i < handSize; i++)
+        {
+            int offset = 3 * i;
+            Vector3 newPos = new Vector3(offset, 0, 0);
+
+            oneHandSlots.Add(Instantiate(handSlotPrefab, (playerOneHand.transform.position + newPos), playerOneHand.transform.rotation, playerOneHand.transform));
+            twoHandSlots.Add(Instantiate(handSlotPrefab, (playerTwoHand.transform.position + newPos), playerTwoHand.transform.rotation, playerTwoHand.transform));
+        }
+
+        foreach (GameObject slot in oneHandSlots)
+        {
+            oneCards.Add(Instantiate(cardPrefab, slot.transform, false));
+        }
+
+        foreach (GameObject slot in twoHandSlots)
+        {
+            twoCards.Add(Instantiate(cardPrefab, slot.transform, false));
+        }
     }
 }

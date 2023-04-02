@@ -13,6 +13,10 @@ public class UIManager : MonoBehaviour
     [HideInInspector] public string playerOneName;
     [HideInInspector] public string playerTwoName;
 
+    [Header("Text Elements")]
+    [SerializeField] private TextMeshProUGUI playerOneNameText;
+    [SerializeField] private TextMeshProUGUI playerTwoNameText;
+
     [SerializeField] private TextMeshProUGUI playerOneScoreText;
     [SerializeField] private TextMeshProUGUI playerTwoScoreText;
 
@@ -35,11 +39,8 @@ public class UIManager : MonoBehaviour
     {
         if(DataManager.Instance.players.Count != 0)
         {
-            GameObject playerOne = GameObject.Find("PlayerOne");
-            GameObject playerTwo = GameObject.Find("PlayerTwo");
-
-            playerOne.GetComponent<TextMeshProUGUI>().text = DataManager.Instance.players[0];
-            playerTwo.GetComponent<TextMeshProUGUI>().text = DataManager.Instance.players[1];
+            playerOneNameText.text = DataManager.Instance.players[0];
+            playerTwoNameText.text = DataManager.Instance.players[1];
         }
         else
         {
