@@ -50,3 +50,4 @@ MonoBehaviour:
   playerTwoScore: 0
   players: []
   currentPlayerIndex: 0
+  diceResult: 000000000000000000000000

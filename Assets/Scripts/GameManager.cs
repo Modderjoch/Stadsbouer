@@ -13,6 +13,7 @@ public class GameManager : MonoBehaviour
     [Header("Hands")]
 
     public int handSize = 10;
+
     [SerializeField] private GameObject playerOneHand;
     [SerializeField] private GameObject playerTwoHand;
 
@@ -139,35 +140,46 @@ public class GameManager : MonoBehaviour
 
     private void ResetTimer()
     {
+        if (!timerIsOn) { uiManager.PausePlayButton(); }
         timeLeft = timerTime;
         timerIsOn = true;
     }
 
     private void SetHandPosition()
     {
-        playerOneHand.transform.position = new Vector3(-1.3f * handSize, playerOneHand.transform.position.y, playerOneHand.transform.position.z);
-        playerTwoHand.transform.position = new Vector3(-1.3f * handSize, playerTwoHand.transform.position.y, playerTwoHand.transform.position.z);
+        playerOneHand.transform.position = new Vector3(-1.493f * handSize, playerOneHand.transform.position.y, playerOneHand.transform.position.z);
+        playerTwoHand.transform.position = new Vector3(-1.493f * handSize, playerTwoHand.transform.position.y, playerTwoHand.transform.position.z);
     }
 
     private void CreateHandSlots()
     {
         for(int i = 0; i < handSize; i++)
         {
-            int offset = 3 * i;
+            float offset = 3.4f * i;
             Vector3 newPos = new Vector3(offset, 0, 0);
 
             oneHandSlots.Add(Instantiate(handSlotPrefab, (playerOneHand.transform.position + newPos), playerOneHand.transform.rotation, playerOneHand.transform));
-            twoHandSlots.Add(Instantiate(handSlotPrefab, (playerTwoHand.transform.position + newPos), playerTwoHand.transform.rotation, playerTwoHand.transform));
+            twoHandSlots.Add(Instantiate(handSlotPrefab, (playerTwoHand.transform.position + newPos), playerTwoHand.transform.rotation, playerTwoHand.transform));        
         }
 
         foreach (GameObject slot in oneHandSlots)
         {
             oneCards.Add(Instantiate(cardPrefab, slot.transform, false));
+
+            for (int j = 0; j < oneCards.Count; j++)
+            {
+                oneCards[j].GetComponentInChildren<TextMeshProUGUI>().text = "Card number " + j;
+            }
         }
 
         foreach (GameObject slot in twoHandSlots)
         {
             twoCards.Add(Instantiate(cardPrefab, slot.transform, false));
+
+            for (int j = 0; j < twoCards.Count; j++)
+            {
+                twoCards[j].GetComponentInChildren<TextMeshProUGUI>().text = "Card number " + j;
+            }
         }
     }
 }

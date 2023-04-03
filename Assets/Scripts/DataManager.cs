@@ -16,9 +16,19 @@ public class DataManager : MonoBehaviour
 
     public int currentPlayerIndex;
 
+    public int[] diceResult = new int[3];
+
     private void Awake()
     {
         Instance = this;
         DontDestroyOnLoad(gameObject);
+    }
+
+    private void Update()
+    {
+        if(diceResult[1] != 0)
+        {
+            diceResult[2] = diceResult[0] + diceResult[1]; 
+        }
     }
 }
