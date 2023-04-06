@@ -5,8 +5,6 @@ using UnityEngine;
 public class Dice : MonoBehaviour
 {
     private Rigidbody rb;
-    public Vector3 diceVelocity;
-
     [SerializeField] private GameObject[] sides;
 
     private void Start()
@@ -16,8 +14,6 @@ public class Dice : MonoBehaviour
 
     public void Roll()
     {
-        diceVelocity = rb.velocity;
-
         float dirX = Random.Range(-650, 650);
         float dirY = Random.Range(-650, 650);
         float dirZ = Random.Range(-650, 650);
@@ -30,6 +26,6 @@ public class Dice : MonoBehaviour
     public void Result(int result, int diceNr)
     {
         DataManager.Instance.diceResult[diceNr] = result;
-        Debug.Log("You've thrown a " + result);
+        DataManager.Instance.diceIsCounted = true;
     }
 }

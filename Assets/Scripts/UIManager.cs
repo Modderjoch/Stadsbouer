@@ -21,6 +21,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI playerTwoScoreText;
 
     [SerializeField] private TextMeshProUGUI timerText;
+    [SerializeField] private TextMeshProUGUI diceText;
 
     [SerializeField] private GameObject pauseButton;
     [SerializeField] private GameObject playButton;
@@ -64,25 +65,32 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void UpdateScoreUI(int currentPlayer)
+    public void UpdateUI(string uiToUpdate, string textToAdd)
     {
-        switch (currentPlayer)
+        switch (uiToUpdate)
         {
-            case 0:
-                playerOneScoreText.text = DataManager.Instance.playerOneScore.ToString();
+            case "Timer":
+                timerText.text = textToAdd;
                 break;
-            case 1:
-                playerTwoScoreText.text = DataManager.Instance.playerTwoScore.ToString();
+            case "Dice":
+                diceText.text = textToAdd;
                 break;
-            default:
-                Debug.Log("No active player/score attribute found.");
+            case "Score":
+                switch (int.Parse(textToAdd))
+                {
+                    case 0:
+                        playerOneScoreText.text = DataManager.Instance.playerOneScore.ToString();
+                        break;
+                    case 1:
+                        playerTwoScoreText.text = DataManager.Instance.playerTwoScore.ToString();
+                        break;
+                    default:
+                        Debug.Log("No active player/score attribute found.");
+                        break;
+                }
                 break;
-        }
-    }
 
-    public void UpdateTimerUI(string timer)
-    {
-        timerText.text = timer;
+        }
     }
 
     public void NextScene()

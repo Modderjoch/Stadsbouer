@@ -7,7 +7,7 @@ public class InputManager : MonoBehaviour
 #pragma warning disable 649
 
     [Header("Scripts")]
-    [SerializeField] Dice[] dice;
+    [SerializeField] public List<Dice> dice;
 
     PlayerInput input;
     PlayerInput.PlayerActions player;
@@ -17,6 +17,12 @@ public class InputManager : MonoBehaviour
         input = new PlayerInput();
         player = input.Player;
 
+        player.DiceRoll.performed += _ => dice[0].Roll();
+        player.DiceRoll.performed += _ => dice[1].Roll();
+    }
+
+    public void RefreshDice()
+    {
         player.DiceRoll.performed += _ => dice[0].Roll();
         if (dice[1] != null) { player.DiceRoll.performed += _ => dice[1].Roll(); }
     }

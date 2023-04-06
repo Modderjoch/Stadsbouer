@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class DataManager : MonoBehaviour
 {
+    [Header("Player properties")]
     public string playerOneName;
     public string playerTwoName;
 
@@ -16,19 +17,13 @@ public class DataManager : MonoBehaviour
 
     public int currentPlayerIndex;
 
+    [Header("Dice")]
     public int[] diceResult = new int[3];
+    public bool diceIsCounted = false;
 
     private void Awake()
     {
         Instance = this;
         DontDestroyOnLoad(gameObject);
-    }
-
-    private void Update()
-    {
-        if(diceResult[1] != 0)
-        {
-            diceResult[2] = diceResult[0] + diceResult[1]; 
-        }
     }
 }
