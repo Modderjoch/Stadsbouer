@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3533453527003352638}
   - component: {fileID: 3533453527003352633}
-  - component: {fileID: 3533453527003352632}
   - component: {fileID: 3533453527003352639}
+  - component: {fileID: 8519508526651918686}
   m_Layer: 6
   m_Name: Dice
   m_TagString: Untagged
@@ -57,19 +57,6 @@ Rigidbody:
   m_Interpolate: 2
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!65 &3533453527003352632
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3533453527003352637}
-  m_Material: {fileID: 13400000, guid: eee8f5fccbbfc4441b32b3db13f11c63, type: 2}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Size: {x: 2, y: 2, z: 2}
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!114 &3533453527003352639
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -82,7 +69,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 05a0884a79c02604097c38e1dcf0acf2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  diceVelocity: {x: 0, y: 0, z: 0}
   sides:
   - {fileID: 3533453528825865674}
   - {fileID: 3533453528350820318}
@@ -90,6 +76,20 @@ MonoBehaviour:
   - {fileID: 3533453527260533574}
   - {fileID: 3533453528214600198}
   - {fileID: 3533453529081578518}
+--- !u!64 &8519508526651918686
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3533453527003352637}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 4
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -5495902117074765545, guid: bbbf5321fa3fff147b16131b63346dbf, type: 3}
 --- !u!1 &3533453527260533574
 GameObject:
   m_ObjectHideFlags: 0

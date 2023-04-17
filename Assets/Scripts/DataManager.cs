@@ -16,9 +16,10 @@ public class DataManager : MonoBehaviour
     public static DataManager Instance;
 
     public int currentPlayerIndex;
+    public int numberOfThrows = 1;
 
     [Header("Dice")]
-    public int[] diceResult = new int[3];
+    public List<int> diceResult = new List<int>(2);
     public bool diceIsCounted = false;
 
     private void Awake()

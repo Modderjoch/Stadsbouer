@@ -38,7 +38,7 @@ public class GameManager : MonoBehaviour
     [Header("Dice")]
     [SerializeField] List<Dice> dice;
     [SerializeField] GameObject[] diceSpawnpoints;
-    private int currentDiceCount = 0;
+    public int numberOfThrowsLeft;
 
     #endregion
 
@@ -51,6 +51,7 @@ public class GameManager : MonoBehaviour
             dataManager = DataManager.Instance;
             dataManager.players.Add("Player 1");
             dataManager.players.Add("Player 2");
+            dataManager.numberOfThrows = 1;
         }
 
         if (DataManager.Instance != null)
@@ -58,12 +59,15 @@ public class GameManager : MonoBehaviour
             dataManager = DataManager.Instance;
 
             dataManager.currentPlayerIndex = Random.Range(0, 2);
-            int i = ReturnActivePlayer();
 
             if (uiManager != null) { uiManager.ActivePlayerUI(); }
             if (cameraManager != null) { cameraManager.NextPlayerCamera(dataManager.currentPlayerIndex); }
         }
 
+        numberOfThrowsLeft = dataManager.numberOfThrows;
+
+        ShowDice(numberOfThrowsLeft);
+        uiManager.UpdateUI("Feedback", "Press SPACE to throw the dice.");
         timerTime = timeLeft;
         TimerSwitch();
     }
@@ -90,6 +94,9 @@ public class GameManager : MonoBehaviour
         cameraManager.NextPlayerCamera(dataManager.currentPlayerIndex);
         ResetTimer();
         if (uiManager != null) { uiManager.ActivePlayerUI(); }
+
+        dataManager.numberOfThrows = numberOfThrowsLeft;
+        ShowDice(numberOfThrowsLeft);
     }
 
     public void AddScore(int scoreToAdd)
@@ -209,74 +216,103 @@ public class GameManager : MonoBehaviour
     #endregion
 
     #region DiceMethods
-    public void SpawnDice(int diceCount)
-    {
-        if(diceCount <= 1 && currentDiceCount == 0)
-        {
-            var newDice = Instantiate(dicePrefab, diceSpawnpoints[0].transform);
-            dice.Insert(0, newDice.GetComponent<Dice>());
+    //public void SpawnDice(int diceCount)
+    //{
+    //    if(diceCount <= 1 && currentDiceCount == 0)
+    //    {
+    //        var newDice = Instantiate(dicePrefab, diceSpawnpoints[0].transform);
+    //        dice.Insert(0, newDice.GetComponent<Dice>());
 
-            inputManager.dice.Insert(0, newDice.GetComponent<Dice>());
+    //        inputManager.dice.Insert(0, newDice.GetComponent<Dice>());
 
-            Debug.Log("Added dice");
-            currentDiceCount++;
-        }
-        else
-        {
-            for(int i = 0; i < diceCount; i++)
-            {
-                Debug.Log("amount of dices we spawn: " + diceCount);
-                var newDice = Instantiate(dicePrefab, diceSpawnpoints[i].transform);
-                dice.Insert(i, newDice.GetComponent<Dice>());
+    //        Debug.Log("Added dice");
+    //        currentDiceCount++;
+    //    }
+    //    else
+    //    {
+    //        for(int i = 0; i < diceCount; i++)
+    //        {
+    //            Debug.Log("amount of dices we spawn: " + diceCount);
+    //            var newDice = Instantiate(dicePrefab, diceSpawnpoints[i].transform);
+    //            dice.Insert(i, newDice.GetComponent<Dice>());
 
-                inputManager.dice.Insert(i, newDice.GetComponent<Dice>());
+    //            inputManager.dice.Insert(i, newDice.GetComponent<Dice>());
 
-                DiceSide[] diceSides;
+    //            DiceSide[] diceSides;
 
-                diceSides = dice[i].GetComponentsInChildren<DiceSide>();
-                foreach(DiceSide d in diceSides)
-                {
-                    d.diceNumber = i;
-                }
+    //            diceSides = dice[i].GetComponentsInChildren<DiceSide>();
+    //            foreach(DiceSide d in diceSides)
+    //            {
+    //                d.diceNumber = i;
+    //            }
                 
-                currentDiceCount++;
-                //inputManager.RefreshDice();
+    //            currentDiceCount++;
+    //            //inputManager.RefreshDice();
 
-                Debug.Log("Added dice" + "current dice in the scene: " + currentDiceCount);
+    //            Debug.Log("Added dice" + "current dice in the scene: " + currentDiceCount);
+    //        }
+    //    }
+    //}
+
+    //public void DestroyDice()
+    //{
+    //    foreach(Dice d in dice)
+    //    {
+    //        if(d != null)
+    //        Destroy(d.gameObject);
+    //    }
+
+    //    currentDiceCount = 0;
+    //    inputManager.dice.Clear();
+    //    dice.Clear();
+    //}
+
+    public void ShowDice(int diceCount)
+    {
+        for(int i = 0; i < diceCount; i++)
+        {
+            dice[i].gameObject.SetActive(true);
+        }
+    }
+
+    public void HideDice(int diceCount)
+    {
+        for (int i = 0; i < diceCount; i++)
+        {
+            if(dice[i].GetComponent<Rigidbody>().velocity.magnitude < 0.01)
+            {
+                dice[i].gameObject.SetActive(false);
             }
         }
     }
 
-    public void DestroyDice()
-    {
-        foreach(Dice d in dice)
-        {
-            if(d != null)
-            Destroy(d.gameObject);
-        }
-
-        currentDiceCount = 0;
-        inputManager.dice.Clear();
-        dice.Clear();
-    }
-
     private void CheckDice()
     {
-        if (dice.Count != 0 && dice[1] != null)
+        if (dice.Count != 0 && dice[1] != null && dice[1].gameObject.activeSelf)
         {
             if (dice[0].GetComponent<Rigidbody>().velocity.magnitude < 0.01 && dice[1].GetComponent<Rigidbody>().velocity.magnitude < 0.01 && dataManager.diceIsCounted)
             {
                 dataManager.diceResult[2] = dataManager.diceResult[0] + dataManager.diceResult[1];
                 uiManager.UpdateUI("Dice", ("Result is: " + dataManager.diceResult[2]));
                 dataManager.diceIsCounted = false;
+                if(dataManager.numberOfThrows == 0) 
+                { 
+                    StartCoroutine(RemoveAfterSeconds(1, dice[0].gameObject)); 
+                    StartCoroutine(RemoveAfterSeconds(1, dice[1].gameObject)); 
+                }
             }
         }
         else
         {
-            if(dice.Count != 0 && dice[0] != null)
+            if(dice.Count != 0 && dice[0] != null && dice[0].gameObject.activeSelf)
             {
                 if (dice[0].GetComponent<Rigidbody>().velocity.magnitude < 0.01 && dataManager.diceIsCounted)
                 {
+                    Debug.Log(dataManager.numberOfThrows);
+                    if (dataManager.numberOfThrows == 0) 
+                    { 
+                        StartCoroutine(RemoveAfterSeconds(1, dice[0].gameObject)); 
+                    }
                     uiManager.UpdateUI("Dice", ("Result is: " + dataManager.diceResult[0]));
                     dataManager.diceIsCounted = false;
                 }
@@ -284,5 +320,14 @@ public class GameManager : MonoBehaviour
         }
     }
 
+    public void ChangeNumberOfThrows(int newNumber) { numberOfThrowsLeft = newNumber; }
+
     #endregion
+
+    private IEnumerator RemoveAfterSeconds(int seconds, GameObject obj)
+    {
+        yield return new WaitForSeconds(seconds);
+        uiManager.UpdateUI("Feedback", "");
+        obj.SetActive(false);
+    }
 }

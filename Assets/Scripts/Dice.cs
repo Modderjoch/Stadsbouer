@@ -14,13 +14,22 @@ public class Dice : MonoBehaviour
 
     public void Roll()
     {
-        float dirX = Random.Range(-650, 650);
-        float dirY = Random.Range(-650, 650);
-        float dirZ = Random.Range(-650, 650);
-        transform.position = new Vector3(transform.position.x, transform.position.y + 5, transform.position.z);
-        transform.rotation = new Quaternion(transform.rotation.x + (Random.Range(0, 4) * 90), transform.rotation.y + (Random.Range(0, 4) * 90), transform.rotation.z + (Random.Range(0, 4) * 90), 0);
-        rb.AddForce(Vector3.up * Random.Range(400, 700));
-        rb.AddTorque(dirX, dirY, dirZ);
+        if (isActiveAndEnabled && DataManager.Instance.numberOfThrows > 0)
+        {
+            float dirX = Random.Range(-650, 650);
+            float dirY = Random.Range(-650, 650);
+            float dirZ = Random.Range(-650, 650);
+            transform.position = new Vector3(transform.position.x, transform.position.y + 5, transform.position.z);
+            transform.rotation = new Quaternion(transform.rotation.x + (Random.Range(0, 4) * 90), transform.rotation.y + (Random.Range(0, 4) * 90), transform.rotation.z + (Random.Range(0, 4) * 90), 0);
+            rb.AddForce(Vector3.up * Random.Range(400, 700));
+            rb.AddTorque(dirX, dirY, dirZ);
+
+            DataManager.Instance.numberOfThrows--;
+        }
+        else
+        {
+            Debug.Log("You've got no throws left");
+        }
     }
 
     public void Result(int result, int diceNr)
