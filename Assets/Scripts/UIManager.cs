@@ -23,8 +23,6 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI diceText;
 
-    [SerializeField] private TextMeshProUGUI feedbackText;
-
     [Header("Buttons")]
     [SerializeField] private GameObject pauseButton;
     [SerializeField] private GameObject playButton;
@@ -91,9 +89,6 @@ public class UIManager : MonoBehaviour
                         Debug.Log("No active player/score attribute found.");
                         break;
                 }
-                break;
-            case "Feedback":
-                feedbackText.text = textToAdd;
                 break;
 
         }

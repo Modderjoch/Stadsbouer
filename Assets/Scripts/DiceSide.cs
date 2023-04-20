@@ -11,6 +11,8 @@ public class DiceSide : MonoBehaviour
 
     private Dice dice;
 
+    private int preventFirstRoll = 1;
+
     private void Start()
     {
         dice = GetComponentInParent<Dice>();
@@ -18,14 +20,21 @@ public class DiceSide : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.tag == "Ground")
+        if(preventFirstRoll >= 0)
         {
-            groundCollision = true;
-            dice.Result(sideNumber, diceNumber);
+            preventFirstRoll--;
         }
         else
         {
-            groundCollision = false;
+            if (other.tag == "Ground")
+            {
+                groundCollision = true;
+                dice.Result(sideNumber, diceNumber);
+            }
+            else
+            {
+                groundCollision = false;
+            }
         }
     }
 

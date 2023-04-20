@@ -16,19 +16,19 @@ public class GameManager : MonoBehaviour
 
     public int handSize = 10;
 
-    [SerializeField] private GameObject playerOneHand;
-    [SerializeField] private GameObject playerTwoHand;
+    //[SerializeField] private GameObject playerOneHand;
+    //[SerializeField] private GameObject playerTwoHand;
 
-    [SerializeField] private List<GameObject> oneHandSlots;
-    [SerializeField] private List<GameObject> twoHandSlots;
-    [SerializeField] private List<GameObject> oneCards;
-    [SerializeField] private List<GameObject> twoCards;
+    //[SerializeField] private List<GameObject> oneHandSlots;
+    //[SerializeField] private List<GameObject> twoHandSlots;
+    //[SerializeField] private List<GameObject> oneCards;
+    //[SerializeField] private List<GameObject> twoCards;
 
     [Header("Prefabs")]
     [SerializeField] private GameObject handSlotPrefab;
-    [SerializeField] private GameObject cardPrefab;
     [SerializeField] private GameObject dataManagerPrefab;
     [SerializeField] private GameObject dicePrefab;
+    [SerializeField] private GameObject cardPrefab;
 
     [Header("Timer")]
     public float timeLeft;
@@ -40,6 +40,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject[] diceSpawnpoints;
     public int numberOfThrowsLeft;
 
+    [Header("Deck")]
+    public List<CardData> deck;
+    public List<CardData> playerHand;
+    public GameObject handTransform;
     #endregion
 
     #region StartupMethods
@@ -66,18 +70,23 @@ public class GameManager : MonoBehaviour
 
         numberOfThrowsLeft = dataManager.numberOfThrows;
 
-        ShowDice(numberOfThrowsLeft);
-        uiManager.UpdateUI("Feedback", "Press SPACE to throw the dice.");
         timerTime = timeLeft;
         TimerSwitch();
+        ShowDice(numberOfThrowsLeft);
     }
+
+    //private void Start()
+    //{
+    //    SetHandPosition();
+    //    CreateHandSlots();
+    //}
 
     private void Start()
     {
-        SetHandPosition();
-        CreateHandSlots();
+        DrawCards(handSize);
+        InstantiateCardPrefabs();
     }
-#endregion
+    #endregion
 
     #region PlayerMethods
     public void NextPlayer()
@@ -157,6 +166,8 @@ public class GameManager : MonoBehaviour
 
     public void TimerSwitch()
     {
+        Debug.Log("Timer is switched");
+        
         if (timerIsOn)
         {
             timerIsOn = false;
@@ -175,98 +186,84 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    #region HandMethods
-    private void SetHandPosition()
-    {
-        playerOneHand.transform.position = new Vector3(-1.493f * handSize, playerOneHand.transform.position.y, playerOneHand.transform.position.z);
-        playerTwoHand.transform.position = new Vector3(-1.493f * handSize, playerTwoHand.transform.position.y, playerTwoHand.transform.position.z);
-    }
-
-    private void CreateHandSlots()
-    {
-        for(int i = 0; i < handSize; i++)
-        {
-            float offset = 3.4f * i;
-            Vector3 newPos = new Vector3(offset, 0, 0);
-
-            oneHandSlots.Add(Instantiate(handSlotPrefab, (playerOneHand.transform.position + newPos), playerOneHand.transform.rotation, playerOneHand.transform));
-            twoHandSlots.Add(Instantiate(handSlotPrefab, (playerTwoHand.transform.position + newPos), playerTwoHand.transform.rotation, playerTwoHand.transform));        
-        }
-
-        foreach (GameObject slot in oneHandSlots)
-        {
-            oneCards.Add(Instantiate(cardPrefab, slot.transform, false));
-
-            for (int j = 0; j < oneCards.Count; j++)
-            {
-                oneCards[j].GetComponentInChildren<TextMeshProUGUI>().text = "Card number " + j;
-            }
-        }
-
-        foreach (GameObject slot in twoHandSlots)
-        {
-            twoCards.Add(Instantiate(cardPrefab, slot.transform, false));
-
-            for (int j = 0; j < twoCards.Count; j++)
-            {
-                twoCards[j].GetComponentInChildren<TextMeshProUGUI>().text = "Card number " + j;
-            }
-        }
-    }
-    #endregion
-
-    #region DiceMethods
-    //public void SpawnDice(int diceCount)
+    #region DeckMethods
+    //private void SetHandPosition()
     //{
-    //    if(diceCount <= 1 && currentDiceCount == 0)
+    //    playerOneHand.transform.position = new Vector3(-1.493f * handSize, playerOneHand.transform.position.y, playerOneHand.transform.position.z);
+    //    playerTwoHand.transform.position = new Vector3(-1.493f * handSize, playerTwoHand.transform.position.y, playerTwoHand.transform.position.z);
+    //}
+
+    //private void CreateHandSlots()
+    //{
+    //    for(int i = 0; i < handSize; i++)
     //    {
-    //        var newDice = Instantiate(dicePrefab, diceSpawnpoints[0].transform);
-    //        dice.Insert(0, newDice.GetComponent<Dice>());
+    //        float offset = 3.4f * i;
+    //        Vector3 newPos = new Vector3(offset, 0, 0);
 
-    //        inputManager.dice.Insert(0, newDice.GetComponent<Dice>());
-
-    //        Debug.Log("Added dice");
-    //        currentDiceCount++;
+    //        oneHandSlots.Add(Instantiate(handSlotPrefab, (playerOneHand.transform.position + newPos), playerOneHand.transform.rotation, playerOneHand.transform));
+    //        twoHandSlots.Add(Instantiate(handSlotPrefab, (playerTwoHand.transform.position + newPos), playerTwoHand.transform.rotation, playerTwoHand.transform));        
     //    }
-    //    else
+
+    //    foreach (GameObject slot in oneHandSlots)
     //    {
-    //        for(int i = 0; i < diceCount; i++)
+    //        oneCards.Add(Instantiate(cardPrefab, slot.transform, false));
+
+    //        for (int j = 0; j < oneCards.Count; j++)
     //        {
-    //            Debug.Log("amount of dices we spawn: " + diceCount);
-    //            var newDice = Instantiate(dicePrefab, diceSpawnpoints[i].transform);
-    //            dice.Insert(i, newDice.GetComponent<Dice>());
+    //            oneCards[j].GetComponentInChildren<TextMeshProUGUI>().text = "Card number " + j;
+    //        }
+    //    }
 
-    //            inputManager.dice.Insert(i, newDice.GetComponent<Dice>());
+    //    foreach (GameObject slot in twoHandSlots)
+    //    {
+    //        twoCards.Add(Instantiate(cardPrefab, slot.transform, false));
 
-    //            DiceSide[] diceSides;
-
-    //            diceSides = dice[i].GetComponentsInChildren<DiceSide>();
-    //            foreach(DiceSide d in diceSides)
-    //            {
-    //                d.diceNumber = i;
-    //            }
-                
-    //            currentDiceCount++;
-    //            //inputManager.RefreshDice();
-
-    //            Debug.Log("Added dice" + "current dice in the scene: " + currentDiceCount);
+    //        for (int j = 0; j < twoCards.Count; j++)
+    //        {
+    //            twoCards[j].GetComponentInChildren<TextMeshProUGUI>().text = "Card number " + j;
     //        }
     //    }
     //}
 
-    //public void DestroyDice()
-    //{
-    //    foreach(Dice d in dice)
-    //    {
-    //        if(d != null)
-    //        Destroy(d.gameObject);
-    //    }
+    public void ShuffleDeck()
+    {
+        for (int i = 0; i < deck.Count; i++)
+        {
+            int randomIndex = Random.Range(i, deck.Count);
+            CardData temp = deck[randomIndex];
+            deck[randomIndex] = deck[i];
+            deck[i] = temp;
+        }
+    }
 
-    //    currentDiceCount = 0;
-    //    inputManager.dice.Clear();
-    //    dice.Clear();
-    //}
+    public void DrawCards(int numCards)
+    {
+        for (int i = 0; i < numCards; i++)
+        {
+            if (deck.Count > 0)
+            {
+                CardData drawnCard = deck[0];
+                deck.RemoveAt(0);
+                playerHand.Add(drawnCard);
+            }
+        }
+    }
 
+    private void InstantiateCardPrefabs()
+    {
+        foreach (CardData card in playerHand)
+        {
+            GameObject cardGO = Instantiate(cardPrefab, handTransform.transform);
+            CardPrefab cardScript = cardGO.GetComponent<CardPrefab>();
+            cardScript.cardData = card;
+            // Set card's data in the UI using cardScript, e.g. cardScript.cardName = card.cardName;
+            // Set card's position, rotation, etc. based on UI layout requirements
+        }
+    }
+
+    #endregion
+
+    #region DiceMethods
     public void ShowDice(int diceCount)
     {
         for(int i = 0; i < diceCount; i++)
@@ -283,7 +280,7 @@ public class GameManager : MonoBehaviour
             {
                 dice[i].gameObject.SetActive(false);
             }
-        }
+        }        
     }
 
     private void CheckDice()
@@ -308,7 +305,6 @@ public class GameManager : MonoBehaviour
             {
                 if (dice[0].GetComponent<Rigidbody>().velocity.magnitude < 0.01 && dataManager.diceIsCounted)
                 {
-                    Debug.Log(dataManager.numberOfThrows);
                     if (dataManager.numberOfThrows == 0) 
                     { 
                         StartCoroutine(RemoveAfterSeconds(1, dice[0].gameObject)); 
