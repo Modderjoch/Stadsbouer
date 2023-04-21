@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dabe5c68165a4c34c9239f7048d654cd, type: 3}
+  m_Name: FerrisWheel
+  m_EditorClassIdentifier: 
+  cardImage: {fileID: 21300000, guid: 4a8e66b91f933a9439e565a1199bf339, type: 3}
+  cardBackground: {fileID: 21300000, guid: 9c435388a026bb94884b1e3671719d01, type: 3}
+  cardName: Ferris Wheel
+  cardID: 20
+  purchaseValue: 5
+  diceValue: 6
+  prestigeValue: 8
+  cardType: 1
+  cardAbility:
+    hasAbility: 1
+    abilityDescription: Gain one dollar if you have none when you start your turn.

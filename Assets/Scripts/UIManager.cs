@@ -7,6 +7,8 @@ using TMPro;
 
 public class UIManager : MonoBehaviour
 {
+    [SerializeField] private GameManager gameManager;
+
     [SerializeField] private TMP_InputField playerOneInput;
     [SerializeField] private TMP_InputField playerTwoInput;
 
@@ -22,6 +24,12 @@ public class UIManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI diceText;
+
+    [SerializeField] private TextMeshProUGUI playerOneDeckText;
+    [SerializeField] private TextMeshProUGUI playerTwoDeckText;
+
+    [SerializeField] private TextMeshProUGUI playerOneDiscardText;
+    [SerializeField] private TextMeshProUGUI playerTwoDiscardText;
 
     [Header("Buttons")]
     [SerializeField] private GameObject pauseButton;
@@ -87,6 +95,34 @@ public class UIManager : MonoBehaviour
                         break;
                     default:
                         Debug.Log("No active player/score attribute found.");
+                        break;
+                }
+                break;
+            case "Deck":
+                switch (int.Parse(textToAdd))
+                {
+                    case 0:
+                        playerOneDeckText.text = gameManager.deckOne.Count.ToString();
+                        break;
+                    case 1:
+                        playerTwoDeckText.text = gameManager.deckTwo.Count.ToString();
+                        break;
+                    default:
+                        Debug.Log("No deck found");
+                        break;
+                }
+                break;
+            case "Discard":
+                switch (int.Parse(textToAdd))
+                {
+                    case 0:
+                        playerOneDiscardText.text = gameManager.discardOne.Count.ToString();
+                        break;
+                    case 1:
+                        playerTwoDiscardText.text = gameManager.discardTwo.Count.ToString();
+                        break;
+                    default:
+                        Debug.Log("No discard found");
                         break;
                 }
                 break;

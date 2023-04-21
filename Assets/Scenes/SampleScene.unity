@@ -499,6 +499,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4f096c9dd07a8f547a184b497f18d539, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameManager: {fileID: 0}
   playerOneInput: {fileID: 180591204}
   playerTwoInput: {fileID: 1186944155}
   playerOneName: 
@@ -509,6 +510,10 @@ MonoBehaviour:
   playerTwoScoreText: {fileID: 0}
   timerText: {fileID: 0}
   diceText: {fileID: 0}
+  playerOneDeckText: {fileID: 0}
+  playerTwoDeckText: {fileID: 0}
+  playerOneDiscardText: {fileID: 0}
+  playerTwoDiscardText: {fileID: 0}
   pauseButton: {fileID: 0}
   playButton: {fileID: 0}
   activePlayer: []
@@ -2268,5 +2273,133 @@ PrefabInstance:
       propertyPath: numberOfThrows
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerOneDeck.Array.size
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerTwoDeck.Array.size
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerOneDeck.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: bcd6c419351da9744b8499e8dbe5be9b, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerOneDeck.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: bcd6c419351da9744b8499e8dbe5be9b, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerOneDeck.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: bcd6c419351da9744b8499e8dbe5be9b, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerOneDeck.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6c637c286a7bd3e4a9b0dbd30982c79c, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerOneDeck.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6c637c286a7bd3e4a9b0dbd30982c79c, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerOneDeck.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6c637c286a7bd3e4a9b0dbd30982c79c, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerOneDeck.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: dfa3e6fee0636104787cc1d5d5c6269e, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerOneDeck.Array.data[7]
+      value: 
+      objectReference: {fileID: 11400000, guid: dfa3e6fee0636104787cc1d5d5c6269e, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerOneDeck.Array.data[8]
+      value: 
+      objectReference: {fileID: 11400000, guid: dfa3e6fee0636104787cc1d5d5c6269e, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerOneDeck.Array.data[9]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d09979224a01a14ba2b2306cde0a52c, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerTwoDeck.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: bcd6c419351da9744b8499e8dbe5be9b, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerTwoDeck.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: bcd6c419351da9744b8499e8dbe5be9b, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerTwoDeck.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: bcd6c419351da9744b8499e8dbe5be9b, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerTwoDeck.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6c637c286a7bd3e4a9b0dbd30982c79c, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerTwoDeck.Array.data[4]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6c637c286a7bd3e4a9b0dbd30982c79c, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerTwoDeck.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6c637c286a7bd3e4a9b0dbd30982c79c, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerTwoDeck.Array.data[6]
+      value: 
+      objectReference: {fileID: 11400000, guid: dfa3e6fee0636104787cc1d5d5c6269e, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerTwoDeck.Array.data[7]
+      value: 
+      objectReference: {fileID: 11400000, guid: dfa3e6fee0636104787cc1d5d5c6269e, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerTwoDeck.Array.data[8]
+      value: 
+      objectReference: {fileID: 11400000, guid: dfa3e6fee0636104787cc1d5d5c6269e, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerTwoDeck.Array.data[9]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d09979224a01a14ba2b2306cde0a52c, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerOneDeck.Array.data[10]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d09979224a01a14ba2b2306cde0a52c, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerOneDeck.Array.data[11]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d09979224a01a14ba2b2306cde0a52c, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerOneDeck.Array.data[12]
+      value: 
+      objectReference: {fileID: 11400000, guid: d857a5c7069999f41a242cd065c64556, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerOneDeck.Array.data[13]
+      value: 
+      objectReference: {fileID: 11400000, guid: d857a5c7069999f41a242cd065c64556, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerOneDeck.Array.data[14]
+      value: 
+      objectReference: {fileID: 11400000, guid: d857a5c7069999f41a242cd065c64556, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerTwoDeck.Array.data[10]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d09979224a01a14ba2b2306cde0a52c, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerTwoDeck.Array.data[11]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d09979224a01a14ba2b2306cde0a52c, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerTwoDeck.Array.data[12]
+      value: 
+      objectReference: {fileID: 11400000, guid: d857a5c7069999f41a242cd065c64556, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerTwoDeck.Array.data[13]
+      value: 
+      objectReference: {fileID: 11400000, guid: d857a5c7069999f41a242cd065c64556, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: playerTwoDeck.Array.data[14]
+      value: 
+      objectReference: {fileID: 11400000, guid: d857a5c7069999f41a242cd065c64556, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}

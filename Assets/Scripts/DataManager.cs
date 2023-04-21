@@ -16,11 +16,14 @@ public class DataManager : MonoBehaviour
     public static DataManager Instance;
 
     public int currentPlayerIndex;
-    public int numberOfThrows = 1;
+
+    public List<CardData> playerOneDeck;
+    public List<CardData> playerTwoDeck;
 
     [Header("Dice")]
     public List<int> diceResult = new List<int>(2);
     public bool diceIsCounted = false;
+    public int numberOfThrows = 1;
 
     private void Awake()
     {

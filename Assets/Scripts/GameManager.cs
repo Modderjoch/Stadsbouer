@@ -12,23 +12,12 @@ public class GameManager : MonoBehaviour
     [SerializeField] private DataManager dataManager;
     [SerializeField] private InputManager inputManager;
 
-    [Header("Hands")]
-
-    public int handSize = 10;
-
-    //[SerializeField] private GameObject playerOneHand;
-    //[SerializeField] private GameObject playerTwoHand;
-
-    //[SerializeField] private List<GameObject> oneHandSlots;
-    //[SerializeField] private List<GameObject> twoHandSlots;
-    //[SerializeField] private List<GameObject> oneCards;
-    //[SerializeField] private List<GameObject> twoCards;
-
     [Header("Prefabs")]
     [SerializeField] private GameObject handSlotPrefab;
     [SerializeField] private GameObject dataManagerPrefab;
     [SerializeField] private GameObject dicePrefab;
     [SerializeField] private GameObject cardPrefab;
+    [SerializeField] private CardData cardDataPrefab;
 
     [Header("Timer")]
     public float timeLeft;
@@ -41,9 +30,22 @@ public class GameManager : MonoBehaviour
     public int numberOfThrowsLeft;
 
     [Header("Deck")]
-    public List<CardData> deck;
-    public List<CardData> playerHand;
-    public GameObject handTransform;
+    public int handSize = 10;
+
+    [SerializeField] private GameObject handOneTransform;
+    [SerializeField] private GameObject handTwoTransform;
+
+    public List<CardData> deckOne;
+    public List<CardData> deckTwo;
+    public List<CardData> handOne;
+    public List<CardData> handTwo;
+    public List<CardData> discardOne;
+    public List<CardData> discardTwo;
+
+    public List<int> oneID;
+    public List<int> twoID;
+
+    private bool firstTime = true;
     #endregion
 
     #region StartupMethods
@@ -56,6 +58,9 @@ public class GameManager : MonoBehaviour
             dataManager.players.Add("Player 1");
             dataManager.players.Add("Player 2");
             dataManager.numberOfThrows = 1;
+
+            for (int i = 0; i < 15; i++) { dataManager.playerOneDeck.Add(cardDataPrefab); }
+            for (int i = 0; i < 15; i++) { dataManager.playerTwoDeck.Add(cardDataPrefab); }
         }
 
         if (DataManager.Instance != null)
@@ -75,16 +80,29 @@ public class GameManager : MonoBehaviour
         ShowDice(numberOfThrowsLeft);
     }
 
-    //private void Start()
-    //{
-    //    SetHandPosition();
-    //    CreateHandSlots();
-    //}
-
     private void Start()
     {
+        deckOne = new List<CardData>(dataManager.playerOneDeck);
+        deckTwo = new List<CardData>(dataManager.playerTwoDeck);
+
+        for (int i = 0; i < deckOne.Count; i++)
+        {
+            Debug.Log(deckOne[i].cardID);
+            deckOne[i] = Instantiate(deckOne[i]);
+            deckOne[i].cardID = deckOne[i].cardID + i;
+            Debug.Log(deckOne[i].cardID);
+        }
+
+        for (int i = 0; i < deckTwo.Count; i++)
+        {
+            Debug.Log(deckTwo[i].cardID);
+            deckTwo[i] = Instantiate(deckTwo[i]);
+            deckTwo[i].cardID = deckTwo[i].cardID + i;
+            Debug.Log(deckTwo[i].cardID);
+        }
+
         DrawCards(handSize);
-        InstantiateCardPrefabs();
+        InstantiateCardPrefabs();        
     }
     #endregion
 
@@ -186,76 +204,171 @@ public class GameManager : MonoBehaviour
     }
     #endregion
 
-    #region DeckMethods
-    //private void SetHandPosition()
-    //{
-    //    playerOneHand.transform.position = new Vector3(-1.493f * handSize, playerOneHand.transform.position.y, playerOneHand.transform.position.z);
-    //    playerTwoHand.transform.position = new Vector3(-1.493f * handSize, playerTwoHand.transform.position.y, playerTwoHand.transform.position.z);
-    //}
-
-    //private void CreateHandSlots()
-    //{
-    //    for(int i = 0; i < handSize; i++)
-    //    {
-    //        float offset = 3.4f * i;
-    //        Vector3 newPos = new Vector3(offset, 0, 0);
-
-    //        oneHandSlots.Add(Instantiate(handSlotPrefab, (playerOneHand.transform.position + newPos), playerOneHand.transform.rotation, playerOneHand.transform));
-    //        twoHandSlots.Add(Instantiate(handSlotPrefab, (playerTwoHand.transform.position + newPos), playerTwoHand.transform.rotation, playerTwoHand.transform));        
-    //    }
-
-    //    foreach (GameObject slot in oneHandSlots)
-    //    {
-    //        oneCards.Add(Instantiate(cardPrefab, slot.transform, false));
-
-    //        for (int j = 0; j < oneCards.Count; j++)
-    //        {
-    //            oneCards[j].GetComponentInChildren<TextMeshProUGUI>().text = "Card number " + j;
-    //        }
-    //    }
-
-    //    foreach (GameObject slot in twoHandSlots)
-    //    {
-    //        twoCards.Add(Instantiate(cardPrefab, slot.transform, false));
-
-    //        for (int j = 0; j < twoCards.Count; j++)
-    //        {
-    //            twoCards[j].GetComponentInChildren<TextMeshProUGUI>().text = "Card number " + j;
-    //        }
-    //    }
-    //}
-
+    #region CardMethods
     public void ShuffleDeck()
     {
-        for (int i = 0; i < deck.Count; i++)
+        if(ReturnActivePlayer() == 0)
         {
-            int randomIndex = Random.Range(i, deck.Count);
-            CardData temp = deck[randomIndex];
-            deck[randomIndex] = deck[i];
-            deck[i] = temp;
+            for (int i = 0; i < deckOne.Count; i++)
+            {
+                int randomIndex = Random.Range(i, deckOne.Count);
+                CardData temp = deckOne[randomIndex];
+                deckOne[randomIndex] = deckOne[i];
+                deckOne[i] = temp;
+            }
+        }
+        else
+        {
+            for (int i = 0; i < deckTwo.Count; i++)
+            {
+                int randomIndex = Random.Range(i, deckTwo.Count);
+                CardData temp = deckTwo[randomIndex];
+                deckTwo[randomIndex] = deckTwo[i];
+                deckTwo[i] = temp;
+            }
         }
     }
 
     public void DrawCards(int numCards)
     {
-        for (int i = 0; i < numCards; i++)
+        if(firstTime)
         {
-            if (deck.Count > 0)
+            for (int i = 0; i < numCards; i++)
             {
-                CardData drawnCard = deck[0];
-                deck.RemoveAt(0);
-                playerHand.Add(drawnCard);
+                if (deckOne.Count > 0)
+                {
+                    int randomIndex = Random.Range(i, deckOne.Count);
+                    CardData temp = deckOne[randomIndex];
+                    deckOne[randomIndex] = deckOne[i];
+                    deckOne[i] = temp;
+
+                    CardData drawnCard = deckOne[0];
+                    deckOne.RemoveAt(0);
+                    handOne.Add(drawnCard);
+                    oneID.Add(drawnCard.cardID);
+
+                    uiManager.UpdateUI("Deck", "0");
+                }
             }
+
+            for (int i = 0; i < numCards; i++)
+            {
+                if (deckTwo.Count > 0)
+                {
+                    int randomIndex = Random.Range(i, deckTwo.Count);
+                    CardData temp = deckTwo[randomIndex];
+                    deckTwo[randomIndex] = deckTwo[i];
+                    deckTwo[i] = temp;
+
+                    CardData drawnCard = deckTwo[0];
+                    deckTwo.RemoveAt(0);
+                    handTwo.Add(drawnCard);
+                    twoID.Add(drawnCard.cardID);
+
+                    uiManager.UpdateUI("Deck", "1");
+                }
+            }
+            firstTime = false;
+        }
+        else
+        {
+            if (ReturnActivePlayer() == 0)
+            {
+                for (int i = 0; i < numCards; i++)
+                {
+                    if (deckOne.Count > 0)
+                    {
+                        CardData drawnCard = deckOne[0];
+                        deckOne.RemoveAt(0);
+                        handOne.Add(drawnCard);
+                        InstantiateCardPrefab(drawnCard, ReturnActivePlayer());
+
+                        uiManager.UpdateUI("Deck", "0");
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < numCards; i++)
+                {
+                    if (deckTwo.Count > 0)
+                    {
+                        CardData drawnCard = deckTwo[0];
+                        deckTwo.RemoveAt(0);
+                        handTwo.Add(drawnCard);
+                        InstantiateCardPrefab(drawnCard, ReturnActivePlayer());
+
+                        uiManager.UpdateUI("Deck", "1");
+                    }
+                }
+            }
+        }
+    }
+
+    public void DiscardCards(int numCards)
+    {
+        if (ReturnActivePlayer() == 0)
+        {
+            for (int i = handOne.Count - 1; i >= 0 && numCards > 0; i--)
+            {
+                discardOne.Add(handOne[i]);
+                handOne.RemoveAt(i);
+                var child = handOneTransform.transform.GetChild(i);
+                Destroy(child.gameObject);
+                numCards--;
+
+                uiManager.UpdateUI("Discard", "0");
+            }
+        }
+        else
+        {
+            for (int i = handTwo.Count - 1; i >= 0 && numCards > 0; i--)
+            {
+                discardTwo.Add(handTwo[i]);
+                handTwo.RemoveAt(i);
+                var child = handTwoTransform.transform.GetChild(i);
+                Destroy(child.gameObject);
+                numCards--;
+
+                uiManager.UpdateUI("Discard", "1");
+            }
+        }
+    }
+
+    private void InstantiateCardPrefab(CardData card, int player)
+    {
+        if (player == 0)
+        {
+            GameObject cardGO = Instantiate(cardPrefab, handOneTransform.transform);
+            CardPrefab cardScript = cardGO.GetComponent<CardPrefab>();
+            cardScript.cardData = card;
+        }
+        else
+        {
+            GameObject cardGO = Instantiate(cardPrefab, handTwoTransform.transform);
+            CardPrefab cardScript = cardGO.GetComponent<CardPrefab>();
+            cardScript.cardData = card;
         }
     }
 
     private void InstantiateCardPrefabs()
     {
-        foreach (CardData card in playerHand)
+        foreach (CardData card in handOne)
         {
-            GameObject cardGO = Instantiate(cardPrefab, handTransform.transform);
+            GameObject cardGO = Instantiate(cardPrefab, handOneTransform.transform);
             CardPrefab cardScript = cardGO.GetComponent<CardPrefab>();
             cardScript.cardData = card;
+
+            // Set card's data in the UI using cardScript, e.g. cardScript.cardName = card.cardName;
+            // Set card's position, rotation, etc. based on UI layout requirements
+        }
+
+        foreach (CardData card in handTwo)
+        {
+            GameObject cardGO = Instantiate(cardPrefab, handTwoTransform.transform);
+            CardPrefab cardScript = cardGO.GetComponent<CardPrefab>();
+            cardScript.cardData = card;
+
             // Set card's data in the UI using cardScript, e.g. cardScript.cardName = card.cardName;
             // Set card's position, rotation, etc. based on UI layout requirements
         }

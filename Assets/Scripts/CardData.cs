@@ -3,19 +3,27 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "New Card", menuName = "Custom/Card")]
 public class CardData : ScriptableObject
 {
-    public string cardName;
+    [Header("Images")]
     public Sprite cardImage;
+    public Sprite cardBackground;
+    [Header("Data")]
+    public string cardName;
+    public int cardID;
+    [Header("Values")]
     public int purchaseValue;
     public int diceValue;
     public int prestigeValue;
+    [Header("Abilities")]
     public CardType cardType;
     public CardAbility cardAbility;
+   
 
     // Custom enum for card type
     public enum CardType
     {
-        Normal,
-        Special
+        Orange,
+        White,
+        Black
     }
 
     // Custom class for card ability
