@@ -2275,11 +2275,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
       propertyPath: playerOneDeck.Array.size
-      value: 15
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
       propertyPath: playerTwoDeck.Array.size
-      value: 15
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: unlockedCards.Array.size
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
       propertyPath: playerOneDeck.Array.data[0]
@@ -2359,6 +2363,26 @@ PrefabInstance:
       objectReference: {fileID: 11400000, guid: dfa3e6fee0636104787cc1d5d5c6269e, type: 2}
     - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
       propertyPath: playerTwoDeck.Array.data[9]
+      value: 
+      objectReference: {fileID: 11400000, guid: 7d09979224a01a14ba2b2306cde0a52c, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: unlockedCards.Array.data[0]
+      value: 
+      objectReference: {fileID: 11400000, guid: bcd6c419351da9744b8499e8dbe5be9b, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: unlockedCards.Array.data[1]
+      value: 
+      objectReference: {fileID: 11400000, guid: 6c637c286a7bd3e4a9b0dbd30982c79c, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: unlockedCards.Array.data[2]
+      value: 
+      objectReference: {fileID: 11400000, guid: d857a5c7069999f41a242cd065c64556, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: unlockedCards.Array.data[3]
+      value: 
+      objectReference: {fileID: 11400000, guid: dfa3e6fee0636104787cc1d5d5c6269e, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: unlockedCards.Array.data[4]
       value: 
       objectReference: {fileID: 11400000, guid: 7d09979224a01a14ba2b2306cde0a52c, type: 2}
     - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}

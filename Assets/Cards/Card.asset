@@ -12,12 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dabe5c68165a4c34c9239f7048d654cd, type: 3}
   m_Name: Card
   m_EditorClassIdentifier: 
-  cardName: 
   cardImage: {fileID: 0}
+  cardBackground: {fileID: 0}
+  cardName: Preview
+  cardID: 1000
   purchaseValue: 0
   diceValue: 0
   prestigeValue: 0
   cardType: 0
   cardAbility:
     hasAbility: 0
-    abilityDescription: 
+    abilityDescription: Preview

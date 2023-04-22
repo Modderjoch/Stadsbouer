@@ -17,8 +17,11 @@ public class DataManager : MonoBehaviour
 
     public int currentPlayerIndex;
 
+    [Header("Card properties")]
     public List<CardData> playerOneDeck;
     public List<CardData> playerTwoDeck;
+
+    public List<CardData> unlockedCards;
 
     [Header("Dice")]
     public List<int> diceResult = new List<int>(2);

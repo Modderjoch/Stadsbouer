@@ -21,6 +21,6 @@ MonoBehaviour:
   prestigeValue: 2
   cardType: 0
   cardAbility:
-    hasAbility: 0
+    hasAbility: 1
     abilityDescription: Gain three dollars from any other player that throws this
       number.
