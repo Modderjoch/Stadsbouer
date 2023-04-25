@@ -8,17 +8,21 @@ public class InputManager : MonoBehaviour
 
     [Header("Scripts")]
     [SerializeField] public List<Dice> dice;
+    [SerializeField] GameManager gameManager;
 
     PlayerInput input;
     PlayerInput.PlayerActions player;
+    PlayerInput.DebugActions debug;
 
     private void Awake()
     {
         input = new PlayerInput();
         player = input.Player;
+        debug = input.Debug;
 
         player.DiceRoll.performed += _ => dice[0].Roll();
         player.DiceRoll.performed += _ => dice[1].Roll();
+        debug.OpenDebug.performed += _ => gameManager.DebugPanel();
     }
 
     public void RefreshDice()

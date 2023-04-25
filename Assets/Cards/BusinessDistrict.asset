@@ -19,7 +19,9 @@ MonoBehaviour:
   purchaseValue: 7
   diceValue: 5
   prestigeValue: 4
-  cardType: 2
+  cardType: 1
   cardAbility:
     hasAbility: 1
     abilityDescription: Gain 4 dollars when you throw this number.
+  deckPos: 0
+  player: 0

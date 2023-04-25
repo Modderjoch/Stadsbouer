@@ -15,7 +15,7 @@ public class HorizontalLayout3D : MonoBehaviour
         ArrangeChildren();
     }
 
-    private void ArrangeChildren()
+    public void ArrangeChildren()
     {
         int numChildren = transform.childCount;
         if (numChildren <= 0) return;

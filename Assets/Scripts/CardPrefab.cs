@@ -9,7 +9,11 @@ public class CardPrefab : MonoBehaviour
     [Header("Card Data")]
     public CardData cardData; // Reference to the CardData scriptable object
 
-    public int player;
+    [Header("Misc")]
+    public GameObject removeButton;
+    public Canvas canvas;
+    [HideInInspector] public int player;
+    [HideInInspector] public int itemPos;    
 
     [HideInInspector] public DeckManager deckManager;
 
@@ -29,7 +33,6 @@ public class CardPrefab : MonoBehaviour
     {
         if(cardData != null)
         {
-            Debug.Log("Initiating card details");
             // Access and use the cardData properties
             string cardName = cardData.cardName;
             int cardID = cardData.cardID;
@@ -40,6 +43,7 @@ public class CardPrefab : MonoBehaviour
             string cardType = cardData.cardType.ToString();
             string cardAbility = cardData.cardAbility.abilityDescription;
             Sprite cardBackground = cardData.cardBackground;
+            int cardPos = cardData.deckPos;
 
             cardNameText.text = cardName;
             cardArt.sprite = cardImage;
@@ -49,6 +53,9 @@ public class CardPrefab : MonoBehaviour
             cardTypeText.text = cardType;
             cardAbilityText.text = cardAbility;
             panel.sprite = cardBackground;
+            itemPos = cardPos;
+
+            if (canvas != null) { canvas.worldCamera = Camera.main; }
         }        
     }
 
@@ -81,6 +88,25 @@ public class CardPrefab : MonoBehaviour
     public void PreviewCard()
     {
         deckManager.PreviewCard(cardData, this);
+    }
+
+    public void PlayCard()
+    {
+        Debug.Log("Playing card" + name);
+        GameManager.Instance.PlayCard(DataManager.Instance.currentPlayerIndex, gameObject);
+    }
+
+    public void RemoveFromDeck()
+    {
+        if(transform.parent.name == "CurrentDeckContainer2") { player = 1; }
+        deckManager.RemoveCardFromDeck(player, itemPos);
+        deckManager.EnableButtonOnFirst(player, true);
+        Destroy(gameObject);        
+    }
+
+    public void SwitchButton(bool status)
+    {
+        removeButton.SetActive(status);
     }
 }
 

@@ -19,10 +19,12 @@ public class DeckManager : MonoBehaviour
 
     [Header("Misc")]
     private DataManager dataManager;
+    //public static DeckManager Instance;
 
     private void Awake()
     {
         dataManager = DataManager.Instance;
+        //Instance = this;
 
         for (int i = 0; i < dataManager.unlockedCards.Count; i++)
         {
@@ -31,12 +33,14 @@ public class DeckManager : MonoBehaviour
             cardScript.cardData = dataManager.unlockedCards[i];
             cardScript.player = 0;
             cardScript.deckManager = this;
+            cardScript.SwitchButton(false);
 
             GameObject cardGO2 = Instantiate(card2D, cardSelection2);
             CardPrefab cardScript2 = cardGO2.GetComponent<CardPrefab>();
             cardScript2.cardData = dataManager.unlockedCards[i];
             cardScript2.player = 1;
             cardScript2.deckManager = this;
+            cardScript2.SwitchButton(false);
         }
     }
 
@@ -93,13 +97,29 @@ public class DeckManager : MonoBehaviour
     {
         if (player == 0)
         {
-            dataManager.playerOneDeck.Add(card);
-            InstantiateCard(0, card);
+            card.deckPos = dataManager.playerOneDeck.Count;
+            dataManager.playerOneDeck.Add(card);            
+            InstantiateCard(0, card);            
         }
         else
         {
+            card.deckPos = dataManager.playerTwoDeck.Count;
             dataManager.playerTwoDeck.Add(card);
             InstantiateCard(1, card);
+        }
+    }
+
+    public void RemoveCardFromDeck(int player, int itemPos)
+    {
+        if (player == 0)
+        {
+            EnableButtonOnFirst(0, true);
+            dataManager.playerOneDeck.RemoveAt(itemPos);
+        }
+        else
+        {
+            EnableButtonOnFirst(1, true);
+            dataManager.playerTwoDeck.RemoveAt(itemPos);
         }
     }
 
@@ -109,13 +129,43 @@ public class DeckManager : MonoBehaviour
         {
             GameObject cardGO = Instantiate(card2D, currentDeck);
             CardPrefab cardScript = cardGO.GetComponent<CardPrefab>();
+            cardScript.deckManager = this;
             cardScript.cardData = card;
+            EnableButtonOnFirst(player, false);
         }
         else
         {
             GameObject cardGO = Instantiate(card2D, currentDeck2);
             CardPrefab cardScript = cardGO.GetComponent<CardPrefab>();
+            cardScript.deckManager = this;
             cardScript.cardData = card;
+            EnableButtonOnFirst(player, false);
         }        
+    }
+
+    public void EnableButtonOnFirst(int player, bool remove)
+    {
+        if(player == 0)
+        {
+            for (int i = 0; i < currentDeck.childCount; i++)
+            {
+                currentDeck.GetComponentsInChildren<CardPrefab>()[i].SwitchButton(false);
+            }
+
+            int childCount = (remove) ? childCount = currentDeck.childCount - 2 : childCount = currentDeck.childCount - 1;
+            var lastChild = currentDeck.transform.GetChild(childCount);
+            lastChild.GetComponent<CardPrefab>().SwitchButton(true);
+        }
+        else
+        {
+            for (int i = 0; i < currentDeck2.childCount; i++)
+            {
+                currentDeck2.GetComponentsInChildren<CardPrefab>()[i].SwitchButton(false);
+            }
+
+            int childCount = (remove) ? childCount = currentDeck2.childCount - 2 : childCount = currentDeck2.childCount - 1;
+            var lastChild = currentDeck2.transform.GetChild(childCount);
+            lastChild.GetComponent<CardPrefab>().SwitchButton(true);
+        }
     }
 }

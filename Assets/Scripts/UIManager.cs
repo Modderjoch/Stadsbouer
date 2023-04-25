@@ -22,6 +22,9 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI playerOneScoreText;
     [SerializeField] private TextMeshProUGUI playerTwoScoreText;
 
+    [SerializeField] private TextMeshProUGUI playerOneMoneyText;
+    [SerializeField] private TextMeshProUGUI playerTwoMoneyText;
+
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI diceText;
 
@@ -56,8 +59,6 @@ public class UIManager : MonoBehaviour
 
         DataManager.Instance.players.Add(playerOneName);
         DataManager.Instance.players.Add(playerTwoName);
-
-        Debug.Log("Player names are: " + playerOneName + " " + playerTwoName + ".");
     }
 
     public void ActivePlayerUI()
@@ -123,6 +124,17 @@ public class UIManager : MonoBehaviour
                         break;
                     default:
                         Debug.Log("No discard found");
+                        break;
+                }
+                break;
+            case "Money":
+                switch (int.Parse(textToAdd))
+                {
+                    case 0:
+                        playerOneMoneyText.text = DataManager.Instance.playerOneMoney.ToString();
+                        break;
+                    case 1:
+                        playerTwoMoneyText.text = DataManager.Instance.playerTwoMoney.ToString();
                         break;
                 }
                 break;

@@ -11,6 +11,9 @@ public class DataManager : MonoBehaviour
     public int playerOneScore;
     public int playerTwoScore;
 
+    public int playerOneMoney;
+    public int playerTwoMoney;
+
     public List<string> players;
 
     public static DataManager Instance;

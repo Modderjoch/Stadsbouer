@@ -1,5 +1,5 @@
 {
-    "name": "Stadsbouer",
+    "name": "PlayerInput",
     "maps": [
         {
             "name": "Player",
@@ -551,6 +551,34 @@
                     "processors": "",
                     "groups": "XR",
                     "action": "TrackedDeviceOrientation",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "Debug",
+            "id": "5e30d839-602b-424e-a0f7-fd4f91ababc6",
+            "actions": [
+                {
+                    "name": "OpenDebug",
+                    "type": "Button",
+                    "id": "0a64d941-e7a9-41f8-a2d1-7f3824e7db20",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "c110c88f-58ad-49f0-a8d6-25701ad39b99",
+                    "path": "<Keyboard>/backquote",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "OpenDebug",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 478192315582982721}
   - component: {fileID: 478192315582982727}
   - component: {fileID: 478192315582982726}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: NumberBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -88,7 +88,7 @@ GameObject:
   - component: {fileID: 478192315792846840}
   - component: {fileID: 478192315792846846}
   - component: {fileID: 478192315792846841}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: DiceText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -223,7 +223,7 @@ GameObject:
   - component: {fileID: 478192315820340842}
   - component: {fileID: 478192315820340840}
   - component: {fileID: 478192315820340843}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: PrestigeImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -301,7 +301,7 @@ GameObject:
   - component: {fileID: 478192315961708491}
   - component: {fileID: 478192315961708490}
   - component: {fileID: 478192315961708501}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: CardModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -338,7 +338,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 478192315961708503}
-  m_Enabled: 0
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -396,7 +396,8 @@ GameObject:
   m_Component:
   - component: {fileID: 478192315965802779}
   - component: {fileID: 5606997161595254290}
-  m_Layer: 0
+  - component: {fileID: 5799827248238072140}
+  m_Layer: 9
   m_Name: Card3D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -433,6 +434,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cardData: {fileID: 0}
+  removeButton: {fileID: 0}
+  canvas: {fileID: 478192316914660262}
+  player: 0
+  itemPos: 0
+  deckManager: {fileID: 0}
   cardNameText: {fileID: 478192316950577759}
   purchaseValueText: {fileID: 478192316053101241}
   diceValueText: {fileID: 478192315792846841}
@@ -441,9 +447,62 @@ MonoBehaviour:
   cardAbilityText: {fileID: 478192317040174683}
   cardArt: {fileID: 478192317177639463}
   panel: {fileID: 26410625356363136}
-  background1: {fileID: 7439735850217654732}
-  background2: {fileID: 6116178289468380403}
-  background3: {fileID: 1793038400595708670}
+--- !u!114 &5799827248238072140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478192315965802778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 0}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5606997161595254290}
+        m_TargetAssemblyTypeName: CardPrefab, Assembly-CSharp
+        m_MethodName: PlayCard
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &478192316053101243
 GameObject:
   m_ObjectHideFlags: 0
@@ -455,7 +514,7 @@ GameObject:
   - component: {fileID: 478192316053101240}
   - component: {fileID: 478192316053101246}
   - component: {fileID: 478192316053101241}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: PurchaseText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -589,7 +648,7 @@ GameObject:
   m_Component:
   - component: {fileID: 478192316407461720}
   - component: {fileID: 478192316407461721}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: CardUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -658,7 +717,7 @@ GameObject:
   - component: {fileID: 478192316776976381}
   - component: {fileID: 478192316776976371}
   - component: {fileID: 478192316776976370}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: CardType
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -793,7 +852,7 @@ GameObject:
   - component: {fileID: 478192316903432232}
   - component: {fileID: 478192316903432238}
   - component: {fileID: 478192316903432233}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: PrestigeText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -929,7 +988,7 @@ GameObject:
   - component: {fileID: 478192316914660262}
   - component: {fileID: 478192316914660257}
   - component: {fileID: 478192316914660256}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Canvas
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1014,7 +1073,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_IgnoreReversedGraphics: 1
+  m_IgnoreReversedGraphics: 0
   m_BlockingObjects: 0
   m_BlockingMask:
     serializedVersion: 2
@@ -1030,7 +1089,7 @@ GameObject:
   - component: {fileID: 478192316950577758}
   - component: {fileID: 478192316950577756}
   - component: {fileID: 478192316950577759}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: CardName
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1165,7 +1224,7 @@ GameObject:
   - component: {fileID: 478192317040174682}
   - component: {fileID: 478192317040174680}
   - component: {fileID: 478192317040174683}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: CardAbility
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1300,7 +1359,7 @@ GameObject:
   - component: {fileID: 478192317139550670}
   - component: {fileID: 478192317139550668}
   - component: {fileID: 478192317139550671}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: PurchaseBackground
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1377,7 +1436,7 @@ GameObject:
   - component: {fileID: 478192317177639462}
   - component: {fileID: 478192317177639460}
   - component: {fileID: 478192317177639463}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: CardImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1453,7 +1512,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7074714735142703006}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Images
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1494,7 +1553,7 @@ GameObject:
   - component: {fileID: 5878234289473746248}
   - component: {fileID: 4773567878464509923}
   - component: {fileID: 7439735850217654732}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Background1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1570,7 +1629,8 @@ GameObject:
   - component: {fileID: 7871833746936034298}
   - component: {fileID: 1408964906736483915}
   - component: {fileID: 26410625356363136}
-  m_Layer: 5
+  - component: {fileID: 7968210571207253749}
+  m_Layer: 9
   m_Name: Background
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1636,6 +1696,62 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7968210571207253749
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5632479261672212475}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e29b1a8efbd4b44bb3f3716e73f07ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Navigation:
+    m_Mode: 3
+    m_WrapAround: 0
+    m_SelectOnUp: {fileID: 0}
+    m_SelectOnDown: {fileID: 0}
+    m_SelectOnLeft: {fileID: 0}
+    m_SelectOnRight: {fileID: 0}
+  m_Transition: 1
+  m_Colors:
+    m_NormalColor: {r: 1, g: 1, b: 1, a: 1}
+    m_HighlightedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_PressedColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 1}
+    m_SelectedColor: {r: 0.9607843, g: 0.9607843, b: 0.9607843, a: 1}
+    m_DisabledColor: {r: 0.78431374, g: 0.78431374, b: 0.78431374, a: 0.5019608}
+    m_ColorMultiplier: 1
+    m_FadeDuration: 0.1
+  m_SpriteState:
+    m_HighlightedSprite: {fileID: 0}
+    m_PressedSprite: {fileID: 0}
+    m_SelectedSprite: {fileID: 0}
+    m_DisabledSprite: {fileID: 0}
+  m_AnimationTriggers:
+    m_NormalTrigger: Normal
+    m_HighlightedTrigger: Highlighted
+    m_PressedTrigger: Pressed
+    m_SelectedTrigger: Selected
+    m_DisabledTrigger: Disabled
+  m_Interactable: 1
+  m_TargetGraphic: {fileID: 26410625356363136}
+  m_OnClick:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 5606997161595254290}
+        m_TargetAssemblyTypeName: CardPrefab, Assembly-CSharp
+        m_MethodName: PlayCard
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &7198048275435369333
 GameObject:
   m_ObjectHideFlags: 0
@@ -1647,7 +1763,7 @@ GameObject:
   - component: {fileID: 5562044366333891090}
   - component: {fileID: 2287487129058654837}
   - component: {fileID: 6116178289468380403}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Background2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1723,7 +1839,7 @@ GameObject:
   - component: {fileID: 2230792128302997847}
   - component: {fileID: 8574480224523095903}
   - component: {fileID: 1793038400595708670}
-  m_Layer: 5
+  m_Layer: 9
   m_Name: Background3
   m_TagString: Untagged
   m_Icon: {fileID: 0}

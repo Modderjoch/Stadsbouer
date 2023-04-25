@@ -9,20 +9,23 @@ public class GameManager : MonoBehaviour
     [Header("Managers")]
     [SerializeField] private UIManager uiManager;
     [SerializeField] private CameraManager cameraManager;
-    [SerializeField] private DataManager dataManager;
+    private DataManager dataManager;
     [SerializeField] private InputManager inputManager;
 
     [Header("Prefabs")]
-    [SerializeField] private GameObject handSlotPrefab;
     [SerializeField] private GameObject dataManagerPrefab;
     [SerializeField] private GameObject dicePrefab;
     [SerializeField] private GameObject cardPrefab;
     [SerializeField] private CardData cardDataPrefab;
 
+    [Header("Played Cards")]
+    public Transform playingAreaOne;
+    public Transform playingAreaTwo;
+
     [Header("Timer")]
     public float timeLeft;
     private float timerTime;
-    public bool timerIsOn = false;
+    [HideInInspector] public bool timerIsOn = false;
 
     [Header("Dice")]
     [SerializeField] List<Dice> dice;
@@ -46,6 +49,11 @@ public class GameManager : MonoBehaviour
     public List<int> twoID;
 
     private bool firstTime = true;
+
+    [Header("Misc")]
+    [SerializeField] private GameObject debugPanel;
+    public static GameManager Instance;
+
     #endregion
 
     #region StartupMethods
@@ -72,7 +80,7 @@ public class GameManager : MonoBehaviour
             if (uiManager != null) { uiManager.ActivePlayerUI(); }
             if (cameraManager != null) { cameraManager.NextPlayerCamera(dataManager.currentPlayerIndex); }
         }
-
+        Instance = this;
         numberOfThrowsLeft = dataManager.numberOfThrows;
 
         timerTime = timeLeft;
@@ -87,18 +95,14 @@ public class GameManager : MonoBehaviour
 
         for (int i = 0; i < deckOne.Count; i++)
         {
-            Debug.Log(deckOne[i].cardID);
             deckOne[i] = Instantiate(deckOne[i]);
             deckOne[i].cardID = deckOne[i].cardID + i;
-            Debug.Log(deckOne[i].cardID);
         }
 
         for (int i = 0; i < deckTwo.Count; i++)
         {
-            Debug.Log(deckTwo[i].cardID);
             deckTwo[i] = Instantiate(deckTwo[i]);
             deckTwo[i].cardID = deckTwo[i].cardID + i;
-            Debug.Log(deckTwo[i].cardID);
         }
 
         DrawCards(handSize);
@@ -358,9 +362,6 @@ public class GameManager : MonoBehaviour
             GameObject cardGO = Instantiate(cardPrefab, handOneTransform.transform);
             CardPrefab cardScript = cardGO.GetComponent<CardPrefab>();
             cardScript.cardData = card;
-
-            // Set card's data in the UI using cardScript, e.g. cardScript.cardName = card.cardName;
-            // Set card's position, rotation, etc. based on UI layout requirements
         }
 
         foreach (CardData card in handTwo)
@@ -368,9 +369,20 @@ public class GameManager : MonoBehaviour
             GameObject cardGO = Instantiate(cardPrefab, handTwoTransform.transform);
             CardPrefab cardScript = cardGO.GetComponent<CardPrefab>();
             cardScript.cardData = card;
+        }
+    }
 
-            // Set card's data in the UI using cardScript, e.g. cardScript.cardName = card.cardName;
-            // Set card's position, rotation, etc. based on UI layout requirements
+    public void PlayCard(int player, GameObject card)
+    {
+        if(player == 0)
+        {
+            card.transform.SetParent(playingAreaOne, false);
+            card.AddComponent<Rigidbody>();
+        }
+        else
+        {
+            card.transform.SetParent(playingAreaTwo, false);
+            card.AddComponent<Rigidbody>();
         }
     }
 
@@ -438,5 +450,17 @@ public class GameManager : MonoBehaviour
         yield return new WaitForSeconds(seconds);
         uiManager.UpdateUI("Feedback", "");
         obj.SetActive(false);
+    }
+
+    public void DebugPanel()
+    {
+        if (debugPanel.activeSelf)
+        {
+            debugPanel.SetActive(false);
+        }
+        else
+        {
+            debugPanel.SetActive(true);
+        }
     }
 }
