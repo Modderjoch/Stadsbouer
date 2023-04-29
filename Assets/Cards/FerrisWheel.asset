@@ -22,4 +22,7 @@ MonoBehaviour:
   cardType: 1
   cardAbility:
     hasAbility: 1
+    abilityAmount: 1
     abilityDescription: Gain one dollar if you have none when you start your turn.
+  deckPos: 0
+  player: 0

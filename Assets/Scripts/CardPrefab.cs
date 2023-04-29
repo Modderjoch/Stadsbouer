@@ -93,7 +93,7 @@ public class CardPrefab : MonoBehaviour
     public void PlayCard()
     {
         Debug.Log("Playing card" + name);
-        GameManager.Instance.PlayCard(DataManager.Instance.currentPlayerIndex, gameObject);
+        GameManager.Instance.PlayCard(DataManager.Instance.currentPlayerIndex, gameObject, itemPos, cardData);
     }
 
     public void RemoveFromDeck()

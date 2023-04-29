@@ -44,11 +44,14 @@ public class GameManager : MonoBehaviour
     public List<CardData> handTwo;
     public List<CardData> discardOne;
     public List<CardData> discardTwo;
+    public List<CardData> playOne;
+    public List<CardData> playTwo;
 
     public List<int> oneID;
     public List<int> twoID;
 
     private bool firstTime = true;
+    private int numberOfCards;
 
     [Header("Misc")]
     [SerializeField] private GameObject debugPanel;
@@ -77,11 +80,19 @@ public class GameManager : MonoBehaviour
 
             dataManager.currentPlayerIndex = Random.Range(0, 2);
 
-            if (uiManager != null) { uiManager.ActivePlayerUI(); }
+            if (uiManager != null)
+            {
+                uiManager.ActivePlayerUI(); 
+                uiManager.UpdateUI("Money", "0"); 
+                uiManager.UpdateUI("Money", "1");
+                uiManager.UpdateUI("Score", "0");
+                uiManager.UpdateUI("Score", "1");
+            }
             if (cameraManager != null) { cameraManager.NextPlayerCamera(dataManager.currentPlayerIndex); }
         }
         Instance = this;
         numberOfThrowsLeft = dataManager.numberOfThrows;
+        numberOfCards = dataManager.numberOfCards;
 
         timerTime = timeLeft;
         TimerSwitch();
@@ -127,6 +138,7 @@ public class GameManager : MonoBehaviour
         if (uiManager != null) { uiManager.ActivePlayerUI(); }
 
         dataManager.numberOfThrows = numberOfThrowsLeft;
+        dataManager.numberOfCards = numberOfCards;
         ShowDice(numberOfThrowsLeft);
     }
 
@@ -249,6 +261,7 @@ public class GameManager : MonoBehaviour
                     CardData drawnCard = deckOne[0];
                     deckOne.RemoveAt(0);
                     handOne.Add(drawnCard);
+                    drawnCard.deckPos = i;
                     oneID.Add(drawnCard.cardID);
 
                     uiManager.UpdateUI("Deck", "0");
@@ -267,6 +280,7 @@ public class GameManager : MonoBehaviour
                     CardData drawnCard = deckTwo[0];
                     deckTwo.RemoveAt(0);
                     handTwo.Add(drawnCard);
+                    drawnCard.deckPos = i;
                     twoID.Add(drawnCard.cardID);
 
                     uiManager.UpdateUI("Deck", "1");
@@ -346,55 +360,127 @@ public class GameManager : MonoBehaviour
             GameObject cardGO = Instantiate(cardPrefab, handOneTransform.transform);
             CardPrefab cardScript = cardGO.GetComponent<CardPrefab>();
             cardScript.cardData = card;
+            cardScript.itemPos = handOne.Count - 1;
         }
         else
         {
             GameObject cardGO = Instantiate(cardPrefab, handTwoTransform.transform);
             CardPrefab cardScript = cardGO.GetComponent<CardPrefab>();
             cardScript.cardData = card;
+            cardScript.itemPos = handTwo.Count - 1;
         }
     }
 
     private void InstantiateCardPrefabs()
     {
-        foreach (CardData card in handOne)
+        //foreach (CardData card in handOne)
+        //{
+        //    GameObject cardGO = Instantiate(cardPrefab, handOneTransform.transform);
+        //    CardPrefab cardScript = cardGO.GetComponent<CardPrefab>();
+        //    cardScript.cardData = card;
+        //    for(int i = 0; i < handOne.Count -1; i++) { cardScript.itemPos = i; }
+        //}
+
+        for (int i = 0; i < handOne.Count; i++)
         {
+            CardData card = handOne[i];
             GameObject cardGO = Instantiate(cardPrefab, handOneTransform.transform);
             CardPrefab cardScript = cardGO.GetComponent<CardPrefab>();
             cardScript.cardData = card;
+            for (int j = 0; j < handOne.Count - 1; j++) { cardScript.itemPos = j; }
         }
 
-        foreach (CardData card in handTwo)
+        for (int i = 0; i < handTwo.Count; i++)
         {
+            CardData card = handTwo[i];
             GameObject cardGO = Instantiate(cardPrefab, handTwoTransform.transform);
             CardPrefab cardScript = cardGO.GetComponent<CardPrefab>();
             cardScript.cardData = card;
+            for (int j = 0; j < handTwo.Count - 1; j++) { cardScript.itemPos = j; }
         }
+
+
+        //foreach (CardData card in handTwo)
+        //{
+        //    GameObject cardGO = Instantiate(cardPrefab, handTwoTransform.transform);
+        //    CardPrefab cardScript = cardGO.GetComponent<CardPrefab>();
+        //    cardScript.cardData = card;
+        //    for (int i = 0; i < handTwo.Count -1; i++) { cardScript.itemPos = i; Debug.Log(cardScript.itemPos); }
+        //}
     }
 
-    public void PlayCard(int player, GameObject card)
+    public void PlayCard(int player, GameObject card, int cardPos, CardData cardData)
     {
-        if(player == 0)
+        if(player == 0 && dataManager.numberOfCards > 0)
         {
             card.transform.SetParent(playingAreaOne, false);
             card.AddComponent<Rigidbody>();
+            playOne.Add(cardData);
+            Debug.Log("Tried to remove at: " + cardPos);
+            handOne.RemoveAt(cardPos);
+            dataManager.numberOfCards--;
         }
         else
         {
-            card.transform.SetParent(playingAreaTwo, false);
-            card.AddComponent<Rigidbody>();
+            if(dataManager.numberOfCards > 0)
+            {
+                card.transform.SetParent(playingAreaTwo, false);
+                card.AddComponent<Rigidbody>();
+                playTwo.Add(cardData);
+                handTwo.RemoveAt(cardPos);
+                dataManager.numberOfCards--;
+            }            
         }
     }
+
+    public void CompareResultToCards(int player, int result)
+    {
+        Debug.Log("Player threw a " + result + " it was player: " + player);
+        if(player == 0)
+        {
+            for(int i = 0; i < playOne.Count; i++)
+            {
+                if(playOne[i].diceValue == result)
+                {
+                    Debug.Log(playOne[i].cardName + " was just activated");
+                    playOne[i].cardAbility.Ability("self", playOne[i].cardAbility.abilityAmount);
+                    uiManager.UpdateUI("Money", "0");
+                }
+            }
+        }
+        else
+        {
+            for (int i = 0; i < playTwo.Count; i++)
+            {
+                if (playTwo[i].diceValue == result)
+                {
+                    Debug.Log(playTwo[i].cardName + "Card was just activated");
+                    playTwo[i].cardAbility.Ability("self", playTwo[i].cardAbility.abilityAmount);
+                    uiManager.UpdateUI("Money", "1");
+                }
+            }
+        }
+    }
+
+    public void ChangeNumberOfCards(int newNumber) { numberOfCards = newNumber; }
 
     #endregion
 
     #region DiceMethods
     public void ShowDice(int diceCount)
     {
-        for(int i = 0; i < diceCount; i++)
+        if(diceCount > dice.Count)
         {
-            dice[i].gameObject.SetActive(true);
+            dice[0].gameObject.SetActive(true);
+            dice[1].gameObject.SetActive(true);
         }
+        else
+        {
+            for (int i = 0; i < diceCount; i++)
+            {
+                dice[i].gameObject.SetActive(true);
+            }
+        }        
     }
 
     public void HideDice(int diceCount)
@@ -410,12 +496,17 @@ public class GameManager : MonoBehaviour
 
     private void CheckDice()
     {
+        Debug.Log("checking dice result");
         if (dice.Count != 0 && dice[1] != null && dice[1].gameObject.activeSelf)
         {
             if (dice[0].GetComponent<Rigidbody>().velocity.magnitude < 0.01 && dice[1].GetComponent<Rigidbody>().velocity.magnitude < 0.01 && dataManager.diceIsCounted)
             {
                 dataManager.diceResult[2] = dataManager.diceResult[0] + dataManager.diceResult[1];
                 uiManager.UpdateUI("Dice", ("Result is: " + dataManager.diceResult[2]));
+                Debug.Log("Result is: " + dataManager.diceResult[2]);
+
+                CompareResultToCards(ReturnActivePlayer(), dataManager.diceResult[2]);
+
                 dataManager.diceIsCounted = false;
                 if(dataManager.numberOfThrows == 0) 
                 { 
@@ -435,6 +526,10 @@ public class GameManager : MonoBehaviour
                         StartCoroutine(RemoveAfterSeconds(1, dice[0].gameObject)); 
                     }
                     uiManager.UpdateUI("Dice", ("Result is: " + dataManager.diceResult[0]));
+                    Debug.Log("Result is: " + dataManager.diceResult[0]);
+
+                    CompareResultToCards(ReturnActivePlayer(), dataManager.diceResult[0]);
+
                     dataManager.diceIsCounted = false;
                 }
             }

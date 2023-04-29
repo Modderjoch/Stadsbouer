@@ -22,5 +22,8 @@ MonoBehaviour:
   cardType: 0
   cardAbility:
     hasAbility: 1
+    abilityAmount: 3
     abilityDescription: Gain three dollars from any other player that throws this
       number.
+  deckPos: 0
+  player: 0

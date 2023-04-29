@@ -34,6 +34,7 @@ public class CardData : ScriptableObject
     public class CardAbility
     {
         public bool hasAbility;
+        public int abilityAmount;
         public string abilityDescription;
 
         public void Ability(string abilityType, int amount)
@@ -43,16 +44,16 @@ public class CardData : ScriptableObject
                 case "self":
                     if(DataManager.Instance.currentPlayerIndex == 0)
                     {
-                        DataManager.Instance.playerOneMoney += 5;
+                        DataManager.Instance.playerOneMoney += amount;
                     }
-                    else { DataManager.Instance.playerTwoMoney += 5; }
+                    else { DataManager.Instance.playerTwoMoney += amount; }
                     break;
                 case "other":
                     if (DataManager.Instance.currentPlayerIndex == 0)
                     {
-                        DataManager.Instance.playerTwoMoney += 5;
+                        DataManager.Instance.playerTwoMoney += amount;
                     }
-                    else { DataManager.Instance.playerOneMoney += 5; }
+                    else { DataManager.Instance.playerOneMoney += amount; }
                     break;
             }
         }

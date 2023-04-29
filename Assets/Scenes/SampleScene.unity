@@ -508,6 +508,8 @@ MonoBehaviour:
   playerTwoNameText: {fileID: 0}
   playerOneScoreText: {fileID: 0}
   playerTwoScoreText: {fileID: 0}
+  playerOneMoneyText: {fileID: 0}
+  playerTwoMoneyText: {fileID: 0}
   timerText: {fileID: 0}
   diceText: {fileID: 0}
   playerOneDeckText: {fileID: 0}
@@ -2283,7 +2285,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
       propertyPath: unlockedCards.Array.size
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
       propertyPath: playerOneDeck.Array.data[0]
@@ -2385,6 +2387,10 @@ PrefabInstance:
       propertyPath: unlockedCards.Array.data[4]
       value: 
       objectReference: {fileID: 11400000, guid: 7d09979224a01a14ba2b2306cde0a52c, type: 2}
+    - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
+      propertyPath: unlockedCards.Array.data[5]
+      value: 
+      objectReference: {fileID: 11400000, guid: 94edbd25bd7246945bccf3f18b11ca36, type: 2}
     - target: {fileID: 5658955159485760587, guid: 0036d5f5be1762d408dd3e8dcf25423d, type: 3}
       propertyPath: playerOneDeck.Array.data[10]
       value: 

@@ -95,17 +95,19 @@ public class DeckManager : MonoBehaviour
 
     public void AddCardToDeck(int player, CardData card)
     {
+        CardData cardCopy = Instantiate(card);
+
         if (player == 0)
         {
-            card.deckPos = dataManager.playerOneDeck.Count;
-            dataManager.playerOneDeck.Add(card);            
-            InstantiateCard(0, card);            
+            cardCopy.deckPos = dataManager.playerOneDeck.Count;
+            dataManager.playerOneDeck.Add(cardCopy);            
+            InstantiateCard(0, cardCopy);            
         }
         else
         {
-            card.deckPos = dataManager.playerTwoDeck.Count;
-            dataManager.playerTwoDeck.Add(card);
-            InstantiateCard(1, card);
+            cardCopy.deckPos = dataManager.playerTwoDeck.Count;
+            dataManager.playerTwoDeck.Add(cardCopy);
+            InstantiateCard(1, cardCopy);
         }
     }
 

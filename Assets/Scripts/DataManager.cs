@@ -30,6 +30,7 @@ public class DataManager : MonoBehaviour
     public List<int> diceResult = new List<int>(2);
     public bool diceIsCounted = false;
     public int numberOfThrows = 1;
+    public int numberOfCards = 2;
 
     private void Awake()
     {

@@ -22,4 +22,7 @@ MonoBehaviour:
   cardType: 2
   cardAbility:
     hasAbility: 1
+    abilityAmount: 2
     abilityDescription: Gain 2 dollars when this number is thrown.
+  deckPos: 0
+  player: 0
