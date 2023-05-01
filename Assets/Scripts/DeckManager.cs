@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using TMPro;
 
 public class DeckManager : MonoBehaviour
 {
@@ -17,14 +18,30 @@ public class DeckManager : MonoBehaviour
     [SerializeField] private GameObject cardPreview;
     [SerializeField] private GameObject cardPreview2;
 
+    [Header("Restrictions")]
+    private int type1_One;
+    private int type1_Two;
+    private int type2_One;
+    private int type2_Two;
+    private int type3_One;
+    private int type3_Two;
+    public int type1_limit;
+    public int type2_limit;
+    public int type3_limit;
+
+    public TextMeshProUGUI restrictionsOne;
+    public TextMeshProUGUI restrictionsTwo;
+
+    public GameObject[] warning;
+
     [Header("Misc")]
     private DataManager dataManager;
-    //public static DeckManager Instance;
+    private UIManager uiManager;
 
     private void Awake()
     {
         dataManager = DataManager.Instance;
-        //Instance = this;
+        uiManager = GetComponent<UIManager>();
 
         for (int i = 0; i < dataManager.unlockedCards.Count; i++)
         {
@@ -42,6 +59,9 @@ public class DeckManager : MonoBehaviour
             cardScript2.deckManager = this;
             cardScript2.SwitchButton(false);
         }
+
+        restrictionsOne.text = string.Format("<color=orange>{0}/{1}</color>\n<color=green>{2}/{3}</color>\n{4}/{5}", type1_One, type1_limit, type2_One, type2_limit, type3_One, type3_limit);
+        restrictionsTwo.text = string.Format("<color=orange>{0}/{1}</color>\n<color=green>{2}/{3}</color>\n{4}/{5}", type1_Two, type1_limit, type2_Two, type2_limit, type3_Two, type3_limit);
     }
 
     public void PreviewCard(CardData card, CardPrefab cardPrfb)
@@ -97,31 +117,96 @@ public class DeckManager : MonoBehaviour
     {
         CardData cardCopy = Instantiate(card);
 
-        if (player == 0)
+        if (CheckDeckLimits(player, cardCopy.cardType))
         {
-            cardCopy.deckPos = dataManager.playerOneDeck.Count;
-            dataManager.playerOneDeck.Add(cardCopy);            
-            InstantiateCard(0, cardCopy);            
+            if (player == 0)
+            {
+                cardCopy.deckPos = dataManager.playerOneDeck.Count;
+                dataManager.playerOneDeck.Add(cardCopy);
+                InstantiateCard(0, cardCopy);
+                UpdateRestrictions(player, cardCopy.cardType, false);
+            }
+            else
+            {
+                cardCopy.deckPos = dataManager.playerTwoDeck.Count;
+                dataManager.playerTwoDeck.Add(cardCopy);
+                InstantiateCard(1, cardCopy);
+                UpdateRestrictions(player, cardCopy.cardType, false);
+            }
         }
         else
         {
-            cardCopy.deckPos = dataManager.playerTwoDeck.Count;
-            dataManager.playerTwoDeck.Add(cardCopy);
-            InstantiateCard(1, cardCopy);
+            GameObject go = null;
+            Debug.Log("Limit reached for type: " + cardCopy.cardType);
+            switch (cardCopy.cardType)
+            {
+                case CardData.CardType.Take:
+                    if (player == 0) { go = warning[0]; } else { go = warning[3]; }
+                    break;
+                case CardData.CardType.Gain:
+                    if (player == 0) { go = warning[1]; } else { go = warning[4]; }
+                    break;
+                case CardData.CardType.Profit:
+                    if (player == 0) { go = warning[2]; } else { go = warning[5]; }
+                    break;
+            }
+
+            AudioManager.Instance.Play("limit");
+            StartCoroutine(GetComponent<UIManager>().PopUp(1, go));
+        }        
+    }
+
+    private bool CheckDeckLimits(int player, CardData.CardType type)
+    {
+        if(player == 0)
+        {
+            switch (type)
+            {
+                case CardData.CardType.Take:
+                    if(type1_One == type1_limit) { return false; }
+                    break;
+                case CardData.CardType.Gain:
+                    if (type2_One == type2_limit) { return false; }
+                    break;
+                case CardData.CardType.Profit:
+                    if (type3_One == type3_limit) { return false; }
+                    break;
+            }
+
+            return true;
+        }
+        else
+        {
+            switch (type)
+            {
+                case CardData.CardType.Take:
+                    if (type1_Two == type1_limit) { return false; }
+                    break;
+                case CardData.CardType.Gain:
+                    if (type2_Two == type2_limit) { return false; }
+                    break;
+                case CardData.CardType.Profit:
+                    if (type3_Two == type3_limit) { return false; }
+                    break;
+            }
+
+            return true;
         }
     }
 
-    public void RemoveCardFromDeck(int player, int itemPos)
+    public void RemoveCardFromDeck(int player, int itemPos, CardData.CardType type)
     {
         if (player == 0)
         {
             EnableButtonOnFirst(0, true);
             dataManager.playerOneDeck.RemoveAt(itemPos);
+            UpdateRestrictions(player, type, true);
         }
         else
         {
             EnableButtonOnFirst(1, true);
             dataManager.playerTwoDeck.RemoveAt(itemPos);
+            UpdateRestrictions(player, type, true);
         }
     }
 
@@ -143,6 +228,44 @@ public class DeckManager : MonoBehaviour
             cardScript.cardData = card;
             EnableButtonOnFirst(player, false);
         }        
+    }
+
+    public void UpdateRestrictions(int player, CardData.CardType type, bool remove)
+    {
+        if(player == 0)
+        {
+            switch (type)
+            {
+                case CardData.CardType.Take:
+                    if (remove) { type1_One--; } else { type1_One++; }
+                    break;
+                case CardData.CardType.Gain:
+                    if (remove) { type2_One--; } else { type2_One++; }
+                    break;
+                case CardData.CardType.Profit:
+                    if (remove) { type3_One--; } else { type3_One++; }
+                    break;
+            }
+
+            restrictionsOne.text = string.Format("<color=orange>{0}/{1}</color>\n<color=green>{2}/{3}</color>\n{4}/{5}", type1_One, type1_limit, type2_One, type2_limit, type3_One, type3_limit);
+        }
+        else
+        {
+            switch (type)
+            {
+                case CardData.CardType.Take:
+                    if (remove) { type1_Two--; } else { type1_Two++; }
+                    break;
+                case CardData.CardType.Gain:
+                    if (remove) { type2_Two--; } else { type2_Two++; }
+                    break;
+                case CardData.CardType.Profit:
+                    if (remove) { type3_Two--; } else { type3_Two++; }
+                    break;
+            }
+
+            restrictionsTwo.text = string.Format("<color=orange>{0}/{1}</color>\n<color=green>{2}/{3}</color>\n{4}/{5}", type1_Two, type1_limit, type2_Two, type2_limit, type3_Two, type3_limit);
+        }
     }
 
     public void EnableButtonOnFirst(int player, bool remove)

@@ -13,7 +13,8 @@ public class CardPrefab : MonoBehaviour
     public GameObject removeButton;
     public Canvas canvas;
     [HideInInspector] public int player;
-    [HideInInspector] public int itemPos;    
+    [HideInInspector] public int itemPos;
+    private CardData.CardType type;
 
     [HideInInspector] public DeckManager deckManager;
 
@@ -44,6 +45,7 @@ public class CardPrefab : MonoBehaviour
             string cardAbility = cardData.cardAbility.abilityDescription;
             Sprite cardBackground = cardData.cardBackground;
             int cardPos = cardData.deckPos;
+            type = cardData.cardType;
 
             cardNameText.text = cardName;
             cardArt.sprite = cardImage;
@@ -99,7 +101,7 @@ public class CardPrefab : MonoBehaviour
     public void RemoveFromDeck()
     {
         if(transform.parent.name == "CurrentDeckContainer2") { player = 1; }
-        deckManager.RemoveCardFromDeck(player, itemPos);
+        deckManager.RemoveCardFromDeck(player, itemPos, type);
         deckManager.EnableButtonOnFirst(player, true);
         Destroy(gameObject);        
     }

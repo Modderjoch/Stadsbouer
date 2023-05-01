@@ -38,6 +38,10 @@ public class UIManager : MonoBehaviour
     [SerializeField] private GameObject pauseButton;
     [SerializeField] private GameObject playButton;
 
+    [Header("Animations")]
+    [SerializeField] private AnimationClip fadeIn;
+    [SerializeField] private AnimationClip fadeOut;
+
     public List<GameObject> activePlayer;
     private void Start()
     {
@@ -151,5 +155,14 @@ public class UIManager : MonoBehaviour
     {
         if (playButton.activeSelf) { pauseButton.SetActive(true); playButton.SetActive(false); }
         else { playButton.SetActive(true); pauseButton.SetActive(false); }
+    }
+
+    public IEnumerator PopUp(int seconds, GameObject obj)
+    {
+        obj.SetActive(true);
+        obj.GetComponent<Animation>().Play();
+
+        yield return new WaitForSeconds(seconds);
+        obj.SetActive(false);
     }
 }

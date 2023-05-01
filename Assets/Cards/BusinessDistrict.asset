@@ -19,7 +19,7 @@ MonoBehaviour:
   purchaseValue: 7
   diceValue: 5
   prestigeValue: 4
-  cardType: 1
+  cardType: 0
   cardAbility:
     hasAbility: 1
     abilityAmount: 4

@@ -3,7 +3,7 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     public AudioClip[] audioClips;  // Array of audio clips to be played
-    private AudioSource audioSource;  // Reference to the AudioSource component
+    private AudioSource[] audioSources;  // Reference to the AudioSource component
 
     // Singleton pattern to ensure only one instance of the AudioManager exists
     private static AudioManager instance;
@@ -39,7 +39,7 @@ public class AudioManager : MonoBehaviour
         }
 
         // Get reference to the AudioSource component
-        audioSource = GetComponent<AudioSource>();
+        audioSources = GetComponents<AudioSource>();
     }
 
     // Play an audio clip by name
@@ -48,7 +48,10 @@ public class AudioManager : MonoBehaviour
         AudioClip clip = GetAudioClip(clipName);
         if (clip != null)
         {
-            audioSource.PlayOneShot(clip);
+            if (clip.name.Contains("Side")) { audioSources[0].PlayOneShot(clip); } else
+            {
+                audioSources[1].PlayOneShot(clip);
+            }            
         }
         else
         {
