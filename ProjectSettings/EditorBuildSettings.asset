@@ -9,6 +9,9 @@ EditorBuildSettings:
     path: Assets/Scenes/SampleScene.unity
     guid: 9fc0d4010bbf28b4594072e72b8655ab
   - enabled: 1
+    path: Assets/Scenes/DeckBuilding.unity
+    guid: 74b12cf9ef830774da77396cc6e1a000
+  - enabled: 1
     path: Assets/Scenes/Gameplay.unity
     guid: 88577f6c9bca2e54cb35c15f5e14c210
   m_configObjects: {}
