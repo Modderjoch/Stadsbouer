@@ -24,5 +24,6 @@ MonoBehaviour:
     hasAbility: 1
     abilityAmount: 1
     abilityDescription: Gain one dollar if you have none when you start your turn.
+  buildingModel: {fileID: 919132149155446097, guid: c7aabf1c042f97d45999240829c95006, type: 3}
   deckPos: 0
   player: 0

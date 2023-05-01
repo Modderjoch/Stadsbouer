@@ -301,6 +301,7 @@ GameObject:
   - component: {fileID: 478192315961708491}
   - component: {fileID: 478192315961708490}
   - component: {fileID: 478192315961708501}
+  - component: {fileID: 1504229151901278162}
   m_Layer: 9
   m_Name: CardModel
   m_TagString: Untagged
@@ -386,6 +387,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1504229151901278162
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478192315961708503}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5499226a6b47ee44bb272fcf4e4d7524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverHeight: 5
+  hoverSpeed: 1
 --- !u!1 &478192315965802778
 GameObject:
   m_ObjectHideFlags: 0
@@ -397,6 +412,8 @@ GameObject:
   - component: {fileID: 478192315965802779}
   - component: {fileID: 5606997161595254290}
   - component: {fileID: 5799827248238072140}
+  - component: {fileID: 1446533842872576314}
+  - component: {fileID: 4033803729071404228}
   m_Layer: 9
   m_Name: Card3D
   m_TagString: Untagged
@@ -439,6 +456,7 @@ MonoBehaviour:
   canvas: {fileID: 478192316914660262}
   player: 0
   itemPos: 0
+  buildingPrefab: {fileID: 0}
   deckManager: {fileID: 0}
   cardNameText: {fileID: 478192316950577759}
   purchaseValueText: {fileID: 478192316053101241}
@@ -488,7 +506,7 @@ MonoBehaviour:
     m_SelectedTrigger: Selected
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 26410625356363136}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -504,6 +522,65 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &1446533842872576314
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478192315965802778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 0
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4033803729071404228}
+          m_TargetAssemblyTypeName: MouseHover, Assembly-CSharp
+          m_MethodName: StartHover
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+  - eventID: 1
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 4033803729071404228}
+          m_TargetAssemblyTypeName: MouseHover, Assembly-CSharp
+          m_MethodName: StopHover
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
+--- !u!114 &4033803729071404228
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 478192315965802778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5499226a6b47ee44bb272fcf4e4d7524, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hoverHeight: 1.5
+  hoverSpeed: 7
 --- !u!1 &478192316053101243
 GameObject:
   m_ObjectHideFlags: 0

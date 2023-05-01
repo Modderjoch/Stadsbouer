@@ -15,6 +15,7 @@ public class CardPrefab : MonoBehaviour
     [HideInInspector] public int player;
     [HideInInspector] public int itemPos;
     private CardData.CardType type;
+    public GameObject buildingPrefab;
 
     [HideInInspector] public DeckManager deckManager;
 
@@ -45,6 +46,7 @@ public class CardPrefab : MonoBehaviour
             string cardAbility = cardData.cardAbility.abilityDescription;
             Sprite cardBackground = cardData.cardBackground;
             int cardPos = cardData.deckPos;
+            GameObject buildingModel = cardData.buildingModel;
             type = cardData.cardType;
 
             cardNameText.text = cardName;
@@ -56,6 +58,7 @@ public class CardPrefab : MonoBehaviour
             cardAbilityText.text = cardAbility;
             panel.sprite = cardBackground;
             itemPos = cardPos;
+            buildingPrefab = buildingModel;
 
             if (canvas != null) { canvas.worldCamera = Camera.main; }
         }        
@@ -95,7 +98,7 @@ public class CardPrefab : MonoBehaviour
     public void PlayCard()
     {
         Debug.Log("Playing card" + name);
-        GameManager.Instance.PlayCard(DataManager.Instance.currentPlayerIndex, gameObject, itemPos, cardData);
+        GameManager.Instance.PlayCard(DataManager.Instance.currentPlayerIndex, gameObject, itemPos, cardData, buildingPrefab);
     }
 
     public void RemoveFromDeck()

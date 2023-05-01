@@ -16,6 +16,7 @@ public class CardData : ScriptableObject
     [Header("Abilities")]
     public CardType cardType;
     public CardAbility cardAbility;
+    public GameObject buildingModel;
 
     [HideInInspector] public int deckPos;
     [HideInInspector] public int player;

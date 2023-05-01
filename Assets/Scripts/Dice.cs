@@ -5,6 +5,7 @@ using UnityEngine;
 public class Dice : MonoBehaviour
 {
     private Rigidbody rb;
+    [SerializeField] private GameManager gameManager;
     [SerializeField] private GameObject[] sides;
 
     private void Start()
@@ -25,6 +26,8 @@ public class Dice : MonoBehaviour
             rb.AddTorque(dirX, dirY, dirZ);
 
             DataManager.Instance.numberOfThrows--;
+
+            gameManager.StartDiceCheck();
         }
         else
         {

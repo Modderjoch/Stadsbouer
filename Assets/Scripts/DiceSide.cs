@@ -20,12 +20,12 @@ public class DiceSide : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if(preventFirstRoll >= 0)
-        {
-            preventFirstRoll--;
-        }
-        else
-        {
+        //if(preventFirstRoll >= 0)
+        //{
+        //    preventFirstRoll--;
+        //}
+        //else
+        //{
             if (other.tag == "Ground")
             {
                 groundCollision = true;
@@ -35,7 +35,7 @@ public class DiceSide : MonoBehaviour
             {
                 groundCollision = false;
             }
-        }
+        //}
     }
 
     private void OnTriggerExit(Collider other)

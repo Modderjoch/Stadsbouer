@@ -24,5 +24,6 @@ MonoBehaviour:
     hasAbility: 1
     abilityAmount: 5
     abilityDescription: Preview
+  buildingModel: {fileID: 478192315965802778, guid: ab9372526469de34c917cd9afe12170a, type: 3}
   deckPos: 0
   player: 0

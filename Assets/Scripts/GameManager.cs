@@ -19,10 +19,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject dicePrefab;
     [SerializeField] private GameObject cardPrefab;
     [SerializeField] private CardData cardDataPrefab;
+    [SerializeField] private GameObject buildingBasePrefab;
 
     [Header("Played Cards")]
     public Transform playingAreaOne;
     public Transform playingAreaTwo;
+
+    [Header("Buildings")]
+    public Transform buildAreaOne;
+    public Transform buildAreaTwo;
 
     [Header("Timer")]
     public float timeLeft;
@@ -100,7 +105,15 @@ public class GameManager : MonoBehaviour
             if (cameraManager != null) { cameraManager.NextPlayerCamera(dataManager.currentPlayerIndex); }
         }
 
-        if(AudioManager.Instance != null) { audioManager = AudioManager.Instance; } else { Instantiate(audioManagerPrefab); audioManager = AudioManager.Instance; }
+        if(AudioManager.Instance == null) 
+        {
+            Instantiate(audioManagerPrefab); 
+            audioManager = AudioManager.Instance;
+        } 
+        else 
+        { 
+            audioManager = AudioManager.Instance; 
+        }
 
         Instance = this;
         numberOfThrowsLeft = dataManager.numberOfThrows;
@@ -136,6 +149,10 @@ public class GameManager : MonoBehaviour
     #region PlayerMethods
     public void NextPlayer()
     {
+        dataManager.diceResult[0] = 0;
+        dataManager.diceResult[1] = 0;
+        dataManager.diceResult[2] = 0;
+
         if(dataManager.currentPlayerIndex >= dataManager.players.Count - 1)
         {
             dataManager.currentPlayerIndex--;
@@ -201,7 +218,7 @@ public class GameManager : MonoBehaviour
             }
         }
 
-        CheckDice();
+        //CheckDice();
     }
 
     private void UpdateTimer(float currentTime)
@@ -215,9 +232,7 @@ public class GameManager : MonoBehaviour
     }
 
     public void TimerSwitch()
-    {
-        Debug.Log("Timer is switched");
-        
+    {        
         if (timerIsOn)
         {
             timerIsOn = false;
@@ -420,7 +435,7 @@ public class GameManager : MonoBehaviour
         }
     }
 
-    public void PlayCard(int player, GameObject card, int cardPos, CardData cardData)
+    public void PlayCard(int player, GameObject card, int cardPos, CardData cardData, GameObject building)
     {
         if(player == 0 && dataManager.numberOfCards > 0)
         {
@@ -437,13 +452,19 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(RemoveAfterSeconds(2, playerOneUpdateUI[1].gameObject));
                 audioManager.Play("paying");
 
-                //Actual logic
+                //Card logic
                 card.transform.SetParent(playingAreaOne, false);
                 card.AddComponent<Rigidbody>();
                 playOne.Add(cardData);
                 Debug.Log("Tried to remove at: " + cardPos);
                 handOne.RemoveAt(cardPos);
                 dataManager.numberOfCards--;
+
+                Debug.Log("Building");
+                //Building logic
+                GameObject go = Instantiate(buildingBasePrefab, buildAreaOne);
+                Transform buildingParent = go.transform.GetChild(1).transform;
+                Instantiate(building, buildingParent);
             }
             else
             {
@@ -473,6 +494,12 @@ public class GameManager : MonoBehaviour
                     playTwo.Add(cardData);
                     handTwo.RemoveAt(cardPos);
                     dataManager.numberOfCards--;
+
+                    Debug.Log("Building");
+                    //Building logic
+                    GameObject go = Instantiate(buildingBasePrefab, buildAreaTwo);
+                    Transform buildingParent = go.transform.GetChild(1).transform;
+                    Instantiate(building, buildingParent);
                 }
                 else
                 {
@@ -487,29 +514,41 @@ public class GameManager : MonoBehaviour
         Debug.Log("Player threw a " + result + " it was player: " + player);
         if(player == 0)
         {
-            for(int i = 0; i < playOne.Count; i++)
+            int combineResult = 0;
+
+            for (int i = 0; i < playOne.Count; i++)
             {
                 if(playOne[i].diceValue == result)
                 {
                     Debug.Log(playOne[i].cardName + " was just activated");
                     playOne[i].cardAbility.Ability("self", playOne[i].cardAbility.abilityAmount);
+                    combineResult += playOne[i].cardAbility.abilityAmount;
                     uiManager.UpdateUI("Money", "0");
                     audioManager.Play("money");
                 }
             }
+
+            playerOneUpdateUI[0].text = string.Format("+{0}", combineResult);
+            StartCoroutine(RemoveAfterSeconds(2, playerOneUpdateUI[0].gameObject));
         }
         else
         {
+            int combineResult = 0;
+
             for (int i = 0; i < playTwo.Count; i++)
             {
                 if (playTwo[i].diceValue == result)
                 {
                     Debug.Log(playTwo[i].cardName + "Card was just activated");
                     playTwo[i].cardAbility.Ability("self", playTwo[i].cardAbility.abilityAmount);
-                    uiManager.UpdateUI("Money", "1");
+                    combineResult += playTwo[i].cardAbility.abilityAmount;
+                    uiManager.UpdateUI("Money", "1");                    
                     audioManager.Play("money");
                 }
             }
+
+            playerTwoUpdateUI[0].text = string.Format("+{0}", combineResult);
+            StartCoroutine(RemoveAfterSeconds(2, playerTwoUpdateUI[0].gameObject));
         }
     }
 
@@ -545,6 +584,15 @@ public class GameManager : MonoBehaviour
         }        
     }
 
+    public void StartDiceCheck()
+    {
+        Debug.Log("DiceCheckk");
+        if (dataManager.diceIsCounted)
+        {
+            InvokeRepeating("CheckDice", 1.5f, .1f);
+        }
+    }
+
     private void CheckDice()
     {
         Debug.Log("checking dice result");
@@ -558,6 +606,7 @@ public class GameManager : MonoBehaviour
 
                 CompareResultToCards(ReturnActivePlayer(), dataManager.diceResult[2]);
 
+                CancelInvoke();
                 dataManager.diceIsCounted = false;
                 if(dataManager.numberOfThrows == 0) 
                 { 
@@ -581,6 +630,8 @@ public class GameManager : MonoBehaviour
 
                     CompareResultToCards(ReturnActivePlayer(), dataManager.diceResult[0]);
 
+                    dataManager.diceResult[0] = 0;
+                    CancelInvoke();
                     dataManager.diceIsCounted = false;
                 }
             }
