@@ -16,13 +16,13 @@ public class CardPrefab : MonoBehaviour
     [HideInInspector] public int itemPos;
     private CardData.CardType type;
     public GameObject buildingPrefab;
+    public Transform particleParent;
 
     [HideInInspector] public DeckManager deckManager;
 
     [Header("Text elements")]
     public TextMeshProUGUI cardNameText;
     public TextMeshProUGUI purchaseValueText;
-    public TextMeshProUGUI diceValueText;
     public TextMeshProUGUI prestigeValueText;
     public TextMeshProUGUI cardTypeText;
     public TextMeshProUGUI cardAbilityText;
@@ -30,6 +30,7 @@ public class CardPrefab : MonoBehaviour
     [Header("Images")]
     public Image cardArt;
     public Image panel;
+    public Image dice;
 
     void Start()
     {
@@ -45,6 +46,7 @@ public class CardPrefab : MonoBehaviour
             string cardType = cardData.cardType.ToString();
             string cardAbility = cardData.cardAbility.abilityDescription;
             Sprite cardBackground = cardData.cardBackground;
+            Sprite diceImage = cardData.diceImage;
             int cardPos = cardData.deckPos;
             GameObject buildingModel = cardData.buildingModel;
             type = cardData.cardType;
@@ -52,13 +54,13 @@ public class CardPrefab : MonoBehaviour
             cardNameText.text = cardName;
             cardArt.sprite = cardImage;
             purchaseValueText.text = purchaseValue.ToString();
-            diceValueText.text = diceValue.ToString();
             prestigeValueText.text = prestigeValue.ToString();
             cardTypeText.text = cardType;
             cardAbilityText.text = cardAbility;
             panel.sprite = cardBackground;
             itemPos = cardPos;
             buildingPrefab = buildingModel;
+            dice.sprite = diceImage;
 
             if (canvas != null) { canvas.worldCamera = Camera.main; }
         }        
@@ -78,15 +80,16 @@ public class CardPrefab : MonoBehaviour
             string cardType = cardData.cardType.ToString();
             string cardAbility = cardData.cardAbility.abilityDescription;
             Sprite cardBackground = cardData.cardBackground;
+            Sprite diceImage = cardData.diceImage;
 
             cardNameText.text = cardName;
             cardArt.sprite = cardImage;
             purchaseValueText.text = purchaseValue.ToString();
-            diceValueText.text = diceValue.ToString();
             prestigeValueText.text = prestigeValue.ToString();
             cardTypeText.text = cardType;
             cardAbilityText.text = cardAbility;
             panel.sprite = cardBackground;
+            dice.sprite = diceImage;
         }
     }
 

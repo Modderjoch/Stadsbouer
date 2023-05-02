@@ -9,26 +9,39 @@ public class MouseHover : MonoBehaviour
     public float hoverSpeed = 1f;
 
     // The position of the object before it started hovering.
-    private Vector3 originalPosition;
+    public Vector3 originalPosition;
 
     // Whether the object is currently hovering.
     private bool isHovering = false;
+
+    private int player;
 
     void Start()
     {
         // Save the original position of the object.
         originalPosition = transform.position;
+        if (transform.parent.name == "PlayerTwoHand") { player = 1; } else { player = 0; }
     }
 
     void Update()
     {
         if (isHovering)
         {
+
             // Calculate the new position of the object based on the hover height.
-            Vector3 hoverPosition = originalPosition + Vector3.forward * hoverHeight;
+            if (player == 0) 
+            { 
+                Vector3 hoverPosition = originalPosition + Vector3.forward * hoverHeight;
+                transform.position = Vector3.MoveTowards(transform.position, hoverPosition, hoverSpeed * Time.deltaTime);
+            } 
+            else
+            {
+                Vector3 hoverPosition = originalPosition + Vector3.back * hoverHeight;
+                transform.position = Vector3.MoveTowards(transform.position, hoverPosition, hoverSpeed * Time.deltaTime);
+            }
 
             // Move the object towards the hover position at the specified speed.
-            transform.position = Vector3.MoveTowards(transform.position, hoverPosition, hoverSpeed * Time.deltaTime);
+            
         }
         else
         {

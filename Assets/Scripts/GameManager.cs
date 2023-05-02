@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
+using UnityEngine.EventSystems;
 using TMPro;
 
 public class GameManager : MonoBehaviour
@@ -68,6 +70,7 @@ public class GameManager : MonoBehaviour
     [Header("Misc")]
     [SerializeField] private GameObject debugPanel;
     public static GameManager Instance;
+    public ParticleSystem placeCardParticle;
 
     #endregion
 
@@ -453,7 +456,10 @@ public class GameManager : MonoBehaviour
                 audioManager.Play("paying");
 
                 //Card logic
+                Destroy(card.GetComponent<MouseHover>());
+                card.GetComponent<EventTrigger>().triggers.Clear();
                 card.transform.SetParent(playingAreaOne, false);
+                Instantiate(placeCardParticle, card.GetComponent<CardPrefab>().particleParent);
                 card.AddComponent<Rigidbody>();
                 playOne.Add(cardData);
                 Debug.Log("Tried to remove at: " + cardPos);
@@ -488,14 +494,16 @@ public class GameManager : MonoBehaviour
                     StartCoroutine(RemoveAfterSeconds(2, playerTwoUpdateUI[1].gameObject));
                     audioManager.Play("paying");
 
-                    //Actual logic
+                    //Card logic
+                    Destroy(card.GetComponent<MouseHover>());
+                    card.GetComponent<EventTrigger>().triggers.Clear();                    
                     card.transform.SetParent(playingAreaTwo, false);
+                    Instantiate(placeCardParticle, card.GetComponent<CardPrefab>().particleParent);
                     card.AddComponent<Rigidbody>();
                     playTwo.Add(cardData);
                     handTwo.RemoveAt(cardPos);
                     dataManager.numberOfCards--;
 
-                    Debug.Log("Building");
                     //Building logic
                     GameObject go = Instantiate(buildingBasePrefab, buildAreaTwo);
                     Transform buildingParent = go.transform.GetChild(1).transform;
@@ -528,8 +536,11 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            playerOneUpdateUI[0].text = string.Format("+{0}", combineResult);
-            StartCoroutine(RemoveAfterSeconds(2, playerOneUpdateUI[0].gameObject));
+            if(combineResult > 0)
+            {
+                playerOneUpdateUI[0].text = string.Format("+{0}", combineResult);
+                StartCoroutine(RemoveAfterSeconds(2, playerOneUpdateUI[0].gameObject));
+            }
         }
         else
         {
@@ -547,8 +558,11 @@ public class GameManager : MonoBehaviour
                 }
             }
 
-            playerTwoUpdateUI[0].text = string.Format("+{0}", combineResult);
-            StartCoroutine(RemoveAfterSeconds(2, playerTwoUpdateUI[0].gameObject));
+            if(combineResult > 0)
+            {
+                playerTwoUpdateUI[0].text = string.Format("+{0}", combineResult);
+                StartCoroutine(RemoveAfterSeconds(2, playerTwoUpdateUI[0].gameObject));
+            }            
         }
     }
 

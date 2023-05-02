@@ -82,6 +82,7 @@ public class DeckManager : MonoBehaviour
         cardDataCopy.prestigeValue = card.prestigeValue;
         cardDataCopy.purchaseValue = card.purchaseValue;
         cardDataCopy.diceValue = card.diceValue;
+        cardDataCopy.diceImage = card.diceImage;
         cardDataCopy.buildingModel = card.buildingModel;
 
         // Assign the new instance of CardData to cardPreviewData

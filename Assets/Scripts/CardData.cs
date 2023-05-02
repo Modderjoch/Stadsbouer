@@ -6,6 +6,7 @@ public class CardData : ScriptableObject
     [Header("Images")]
     public Sprite cardImage;
     public Sprite cardBackground;
+    public Sprite diceImage;
     [Header("Data")]
     public string cardName;
     public int cardID;
