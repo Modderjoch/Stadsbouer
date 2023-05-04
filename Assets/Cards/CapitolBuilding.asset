@@ -24,7 +24,7 @@ MonoBehaviour:
   cardAbility:
     hasAbility: 1
     abilityAmount: 3
-    abilityDescription: Both you and your opponent gain three dollars
+    abilityDescription: You gain three dollars whereas your opponent gains one
   buildingModel: {fileID: 919132149155446097, guid: f70956aee51faac4bb5a5bce2ac99ccf, type: 3}
   deckPos: 0
   player: 0

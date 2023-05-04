@@ -3876,9 +3876,9 @@ MonoBehaviour:
   card2D: {fileID: 2382643623216305913, guid: efdd67df5ab054c43b2dc8e1f43ca67c, type: 3}
   cardPreview: {fileID: 1208536241}
   cardPreview2: {fileID: 1553339390}
-  type1_limit: 5
-  type2_limit: 5
-  type3_limit: 5
+  type1_limit: 4
+  type2_limit: 8
+  type3_limit: 6
   restrictionsOne: {fileID: 72525433}
   restrictionsTwo: {fileID: 157453099}
   warning:
@@ -3903,6 +3903,7 @@ MonoBehaviour:
   gameManager: {fileID: 0}
   playerOneInput: {fileID: 0}
   playerTwoInput: {fileID: 0}
+  dropdown: {fileID: 0}
   playerOneName: 
   playerTwoName: 
   playerOneNameText: {fileID: 428164588}
@@ -3921,6 +3922,13 @@ MonoBehaviour:
   playButton: {fileID: 0}
   fadeIn: {fileID: 0}
   fadeOut: {fileID: 0}
+  winCanvas: {fileID: 0}
+  winName: {fileID: 0}
+  stat1: {fileID: 0}
+  stat2: {fileID: 0}
+  stat3: {fileID: 0}
+  playerOneHand: {fileID: 0}
+  playerTwoHand: {fileID: 0}
   activePlayer: []
 --- !u!1 &1029407603
 GameObject:

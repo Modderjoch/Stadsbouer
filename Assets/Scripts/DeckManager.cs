@@ -60,8 +60,8 @@ public class DeckManager : MonoBehaviour
             cardScript2.SwitchButton(false);
         }
 
-        restrictionsOne.text = string.Format("<color=orange>{0}/{1}</color>\n<color=green>{2}/{3}</color>\n{4}/{5}", type1_One, type1_limit, type2_One, type2_limit, type3_One, type3_limit);
-        restrictionsTwo.text = string.Format("<color=orange>{0}/{1}</color>\n<color=green>{2}/{3}</color>\n{4}/{5}", type1_Two, type1_limit, type2_Two, type2_limit, type3_Two, type3_limit);
+        restrictionsOne.text = string.Format("<color=orange>{0}/{1}</color>\n<color=#1a6e08>{2}/{3}</color>\n{4}/{5}", type1_One, type1_limit, type2_One, type2_limit, type3_One, type3_limit);
+        restrictionsTwo.text = string.Format("<color=orange>{0}/{1}</color>\n<color=#1a6e08>{2}/{3}</color>\n{4}/{5}", type1_Two, type1_limit, type2_Two, type2_limit, type3_Two, type3_limit);
     }
 
     public void PreviewCard(CardData card, CardPrefab cardPrfb)
@@ -249,7 +249,7 @@ public class DeckManager : MonoBehaviour
                     break;
             }
 
-            restrictionsOne.text = string.Format("<color=orange>{0}/{1}</color>\n<color=green>{2}/{3}</color>\n{4}/{5}", type1_One, type1_limit, type2_One, type2_limit, type3_One, type3_limit);
+            restrictionsOne.text = string.Format("<color=orange>{0}/{1}</color>\n<color=#1a6e08>{2}/{3}</color>\n{4}/{5}", type1_One, type1_limit, type2_One, type2_limit, type3_One, type3_limit);
         }
         else
         {
@@ -266,7 +266,7 @@ public class DeckManager : MonoBehaviour
                     break;
             }
 
-            restrictionsTwo.text = string.Format("<color=orange>{0}/{1}</color>\n<color=green>{2}/{3}</color>\n{4}/{5}", type1_Two, type1_limit, type2_Two, type2_limit, type3_Two, type3_limit);
+            restrictionsTwo.text = string.Format("<color=orange>{0}/{1}</color>\n<color=#1a6e08>{2}/{3}</color>\n{4}/{5}", type1_Two, type1_limit, type2_Two, type2_limit, type3_Two, type3_limit);
         }
     }
 

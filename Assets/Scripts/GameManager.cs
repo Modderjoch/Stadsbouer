@@ -26,10 +26,19 @@ public class GameManager : MonoBehaviour
     [Header("Played Cards")]
     public Transform playingAreaOne;
     public Transform playingAreaTwo;
+    public Transform playingAreaOne2;
+    public Transform playingAreaTwo2;
+    public Transform playingAreaOne3;
+    public Transform playingAreaTwo3;
 
     [Header("Buildings")]
+    public int buildingLimit;
     public Transform buildAreaOne;
     public Transform buildAreaTwo;
+    public Transform buildAreaOne2;
+    public Transform buildAreaTwo2;
+    public Transform buildAreaOne3;
+    public Transform buildAreaTwo3;
 
     [Header("Timer")]
     public float timeLeft;
@@ -605,7 +614,27 @@ public class GameManager : MonoBehaviour
                 //Card logic
                 Destroy(card.GetComponent<MouseHover>());
                 card.GetComponent<EventTrigger>().triggers.Clear();
-                card.transform.SetParent(playingAreaOne, false);
+                
+
+                if(playingAreaOne.childCount + 1 <= buildingLimit)
+                {
+                    card.transform.SetParent(playingAreaOne, false);
+                }
+                else
+                {
+                    if(playingAreaOne.childCount + 1 >= buildingLimit)
+                    {
+                        if(playingAreaOne2.childCount + 1 <= buildingLimit)
+                        {
+                            card.transform.SetParent(playingAreaOne2, false);
+                        }
+                        else
+                        {
+                            card.transform.SetParent(playingAreaOne3, false);
+                        }
+                    }
+                }
+
                 Instantiate(placeCardParticle, card.GetComponent<CardPrefab>().particleParent);
                 card.AddComponent<Rigidbody>();
                 playOne.Add(cardData);
@@ -615,10 +644,39 @@ public class GameManager : MonoBehaviour
 
                 Debug.Log("Building");
                 //Building logic
-                GameObject go = Instantiate(buildingBasePrefab, buildAreaOne);
-                go.transform.rotation = Quaternion.Euler(0, 180, 0);
-                Transform buildingParent = go.transform.GetChild(1).transform;
-                Instantiate(building, buildingParent);
+                //GameObject go = Instantiate(buildingBasePrefab, buildAreaOne);
+                //go.transform.rotation = Quaternion.Euler(0, 180, 0);
+                //Transform buildingParent = go.transform.GetChild(1).transform;
+                //Instantiate(building, buildingParent);
+
+                if (buildAreaOne.childCount < buildingLimit)
+                {
+                    GameObject go = Instantiate(buildingBasePrefab, buildAreaOne);
+                    go.transform.rotation = Quaternion.Euler(0, 180, 0);
+                    Transform buildingParent = go.transform.GetChild(1).transform;
+                    Instantiate(building, buildingParent);
+                }
+                else
+                {
+                    if(buildAreaOne.childCount >= buildingLimit)
+                    {
+                        if(buildAreaOne2.childCount < buildingLimit)
+                        {
+                            GameObject go = Instantiate(buildingBasePrefab, buildAreaOne2);
+                            go.transform.rotation = Quaternion.Euler(0, 180, 0);
+                            Transform buildingParent = go.transform.GetChild(1).transform;
+                            Instantiate(building, buildingParent);
+                        }
+                        else
+                        {
+                            GameObject go = Instantiate(buildingBasePrefab, buildAreaOne3);
+                            go.transform.rotation = Quaternion.Euler(0, 180, 0);
+                            Transform buildingParent = go.transform.GetChild(1).transform;
+                            Instantiate(building, buildingParent);
+                        }
+                    }
+                }
+                
             }
             else
             {
@@ -645,8 +703,28 @@ public class GameManager : MonoBehaviour
 
                     //Card logic
                     Destroy(card.GetComponent<MouseHover>());
-                    card.GetComponent<EventTrigger>().triggers.Clear();                    
-                    card.transform.SetParent(playingAreaTwo, false);
+                    card.GetComponent<EventTrigger>().triggers.Clear();
+                    //card.transform.SetParent(playingAreaTwo, false);
+
+                    if (playingAreaTwo.childCount + 1 <= buildingLimit)
+                    {
+                        card.transform.SetParent(playingAreaTwo, false);
+                    }
+                    else
+                    {
+                        if (playingAreaTwo.childCount + 1 >= buildingLimit)
+                        {
+                            if (playingAreaTwo2.childCount + 1 <= buildingLimit)
+                            {
+                                card.transform.SetParent(playingAreaTwo2, false);
+                            }
+                            else
+                            {
+                                card.transform.SetParent(playingAreaTwo3, false);
+                            }
+                        }
+                    }
+
                     Instantiate(placeCardParticle, card.GetComponent<CardPrefab>().particleParent);
                     card.AddComponent<Rigidbody>();
                     playTwo.Add(cardData);
@@ -654,9 +732,34 @@ public class GameManager : MonoBehaviour
                     dataManager.numberOfCards--;
 
                     //Building logic
-                    GameObject go = Instantiate(buildingBasePrefab, buildAreaTwo);
-                    Transform buildingParent = go.transform.GetChild(1).transform;
-                    Instantiate(building, buildingParent);
+                    //GameObject go = Instantiate(buildingBasePrefab, buildAreaTwo);
+                    //Transform buildingParent = go.transform.GetChild(1).transform;
+                    //Instantiate(building, buildingParent);
+
+                    if (buildAreaTwo.childCount < buildingLimit)
+                    {
+                        GameObject go = Instantiate(buildingBasePrefab, buildAreaTwo);
+                        Transform buildingParent = go.transform.GetChild(1).transform;
+                        Instantiate(building, buildingParent);
+                    }
+                    else
+                    {
+                        if (buildAreaTwo.childCount >= buildingLimit)
+                        {
+                            if (buildAreaTwo2.childCount < buildingLimit)
+                            {
+                                GameObject go = Instantiate(buildingBasePrefab, buildAreaTwo2);
+                                Transform buildingParent = go.transform.GetChild(1).transform;
+                                Instantiate(building, buildingParent);
+                            }
+                            else
+                            {
+                                GameObject go = Instantiate(buildingBasePrefab, buildAreaTwo3);
+                                Transform buildingParent = go.transform.GetChild(1).transform;
+                                Instantiate(building, buildingParent);
+                            }
+                        }
+                    }
                 }
                 else
                 {

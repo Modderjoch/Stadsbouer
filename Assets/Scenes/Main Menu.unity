@@ -521,6 +521,13 @@ MonoBehaviour:
   playButton: {fileID: 0}
   fadeIn: {fileID: 0}
   fadeOut: {fileID: 0}
+  winCanvas: {fileID: 0}
+  winName: {fileID: 0}
+  stat1: {fileID: 0}
+  stat2: {fileID: 0}
+  stat3: {fileID: 0}
+  playerOneHand: {fileID: 0}
+  playerTwoHand: {fileID: 0}
   activePlayer: []
 --- !u!1 &481284347
 GameObject:

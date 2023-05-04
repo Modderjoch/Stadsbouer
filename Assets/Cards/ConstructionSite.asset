@@ -10,21 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dabe5c68165a4c34c9239f7048d654cd, type: 3}
-  m_Name: BusinessDistrict
+  m_Name: ConstructionSite
   m_EditorClassIdentifier: 
-  cardImage: {fileID: 21300000, guid: dcafc0d990acfd1439315c47903357cf, type: 3}
-  cardBackground: {fileID: 21300000, guid: a164a4ad6d201d74f9e1e939ce584a8e, type: 3}
+  cardImage: {fileID: 21300000, guid: d8ec9f14c0dd27c4dbde141757e3fcc8, type: 3}
+  cardBackground: {fileID: 21300000, guid: 383a694b1819f5d47a0393d1508517fc, type: 3}
   diceImage: {fileID: 21300000, guid: b775eefc2a16acf4baad8b6cb53a4a39, type: 3}
-  cardName: Business District
-  cardID: 40
-  purchaseValue: 7
+  cardName: Construction Site
+  cardID: 60
+  purchaseValue: 3
   diceValue: 5
-  prestigeValue: 4
-  cardType: 0
+  prestigeValue: 0
+  cardType: 2
   cardAbility:
-    hasAbility: 1
-    abilityAmount: 4
-    abilityDescription: Gain four dollars
-  buildingModel: {fileID: 919132149155446097, guid: 3764a3abec2fefc4eac06a32d217c6b8, type: 3}
+    hasAbility: 0
+    abilityAmount: 2
+    abilityDescription: You gain two dollars whereas your opponent gains one
+  buildingModel: {fileID: 919132149155446097, guid: e85856a30b63ca048b0192f8aaeb717f, type: 3}
   deckPos: 0
   player: 0

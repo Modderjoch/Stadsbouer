@@ -50,7 +50,10 @@ MonoBehaviour:
   playerTwoScore: 0
   playerOneMoney: 5
   playerTwoMoney: 5
+  playerOneTotalMoney: 0
+  playerTwoTotalMoney: 0
   players: []
+  winCondition: 
   currentPlayerIndex: 0
   playerOneDeck: []
   playerTwoDeck: []
@@ -61,6 +64,9 @@ MonoBehaviour:
   - {fileID: 11400000, guid: dfa3e6fee0636104787cc1d5d5c6269e, type: 2}
   - {fileID: 11400000, guid: 7d09979224a01a14ba2b2306cde0a52c, type: 2}
   - {fileID: 11400000, guid: 94edbd25bd7246945bccf3f18b11ca36, type: 2}
+  - {fileID: 11400000, guid: 9f6424b436f33fc4e95092633bd758c0, type: 2}
+  - {fileID: 11400000, guid: e7d6c9489eb192848afbe9c1919fe43f, type: 2}
+  - {fileID: 11400000, guid: b5c7a62195a887143b4cbf3c12061d8d, type: 2}
   diceResult: 000000000000000000000000
   diceIsCounted: 0
   numberOfThrows: 1

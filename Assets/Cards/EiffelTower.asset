@@ -10,20 +10,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: dabe5c68165a4c34c9239f7048d654cd, type: 3}
-  m_Name: Supermarket
+  m_Name: EiffelTower
   m_EditorClassIdentifier: 
-  cardImage: {fileID: 21300000, guid: cf8d112ead516a442994b2041352ee9a, type: 3}
-  cardBackground: {fileID: 21300000, guid: 383a694b1819f5d47a0393d1508517fc, type: 3}
-  cardName: Supermarket
+  cardImage: {fileID: 21300000, guid: d0023c69483edd14f9a58ab7838351aa, type: 3}
+  cardBackground: {fileID: 21300000, guid: a164a4ad6d201d74f9e1e939ce584a8e, type: 3}
+  diceImage: {fileID: 21300000, guid: d3379df51d9bdb44a915bcd801d5d015, type: 3}
+  cardName: Eiffel Tower
   cardID: 50
-  purchaseValue: 3
+  purchaseValue: 9
   diceValue: 1
-  prestigeValue: 5
+  prestigeValue: 6
   cardType: 0
   cardAbility:
     hasAbility: 1
     abilityAmount: 5
-    abilityDescription: Preview
-  buildingModel: {fileID: 478192315965802778, guid: ab9372526469de34c917cd9afe12170a, type: 3}
+    abilityDescription: Gain five dollars
+  buildingModel: {fileID: 919132149155446097, guid: 914b1a46cc2c8c943bbb908145a5d772, type: 3}
   deckPos: 0
   player: 0
