@@ -17,14 +17,14 @@ MonoBehaviour:
   diceImage: {fileID: 21300000, guid: c8d38494544328b43aa765221abb1c7e, type: 3}
   cardName: Bank
   cardID: 10
-  purchaseValue: 2
+  purchaseValue: 4
   diceValue: 3
   prestigeValue: 2
   cardType: 0
   cardAbility:
     hasAbility: 1
-    abilityAmount: 3
-    abilityDescription: Gain three dollars from everyone if it is your turn.
+    abilityAmount: 2
+    abilityDescription: Gain two dollars
   buildingModel: {fileID: 919132149155446097, guid: 9c9c9cc35855706429c4df8920d7d907, type: 3}
   deckPos: 0
   player: 0

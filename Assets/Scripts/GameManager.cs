@@ -60,18 +60,28 @@ public class GameManager : MonoBehaviour
     public List<int> twoID;
 
     private bool firstTime = true;
-    private int numberOfCards;
+    public int numberOfCards;
+    public int cardCost;
+    public int discardCost;
 
     [Header("User Interface")]
     [SerializeField] private TextMeshProUGUI[] playerOneUpdateUI;
     [SerializeField] private TextMeshProUGUI[] playerTwoUpdateUI;
     [SerializeField] private Canvas canvas;
+    [SerializeField] private GameObject playerOneControl;
+    [SerializeField] private GameObject playerTwoControl;
 
     [Header("Misc")]
     [SerializeField] private GameObject debugPanel;
     public static GameManager Instance;
     public ParticleSystem placeCardParticle;
+    public int startMoney = 5;
 
+    [Header("Winning")]
+    private string winningCondition;
+    public int moneyWinLimit;
+    public int prestigeWinLimit;
+    public float timeWinLimit;
     #endregion
 
     #region StartupMethods
@@ -86,6 +96,10 @@ public class GameManager : MonoBehaviour
             dataManager.players.Add("Player 1");
             dataManager.players.Add("Player 2");
             dataManager.numberOfThrows = 1;
+            dataManager.numberOfCards = 1;
+            dataManager.playerOneMoney = startMoney;
+            dataManager.playerTwoMoney = startMoney;
+            dataManager.winCondition = "Money";
 
             for (int i = 0; i < 15; i++) { dataManager.playerOneDeck.Add(cardDataPrefab); }
             for (int i = 0; i < 15; i++) { dataManager.playerTwoDeck.Add(cardDataPrefab); }
@@ -106,6 +120,15 @@ public class GameManager : MonoBehaviour
                 uiManager.UpdateUI("Score", "1");
             }
             if (cameraManager != null) { cameraManager.NextPlayerCamera(dataManager.currentPlayerIndex); }
+
+            if(dataManager.currentPlayerIndex == 0)
+            {
+                playerOneControl.SetActive(true);
+            }
+            else
+            {
+                playerTwoControl.SetActive(true);
+            }
         }
 
         if(AudioManager.Instance == null) 
@@ -121,6 +144,7 @@ public class GameManager : MonoBehaviour
         Instance = this;
         numberOfThrowsLeft = dataManager.numberOfThrows;
         numberOfCards = dataManager.numberOfCards;
+        winningCondition = dataManager.winCondition;
 
         timerTime = timeLeft;
         TimerSwitch();
@@ -159,10 +183,14 @@ public class GameManager : MonoBehaviour
         if(dataManager.currentPlayerIndex >= dataManager.players.Count - 1)
         {
             dataManager.currentPlayerIndex--;
+            playerOneControl.SetActive(true);
+            playerTwoControl.SetActive(false);
         }
         else
         {
             dataManager.currentPlayerIndex++;
+            playerOneControl.SetActive(false);
+            playerTwoControl.SetActive(true);
         }
 
         cameraManager.NextPlayerCamera(dataManager.currentPlayerIndex);
@@ -194,6 +222,67 @@ public class GameManager : MonoBehaviour
         }
 
         uiManager.UpdateUI("Score", (ReturnActivePlayer().ToString()));
+    }
+
+    private void CheckForWinner(int player)
+    {
+        switch (winningCondition)
+        {
+            case "Money":
+                Debug.Log("Win by money");
+                if(player == 0)
+                {
+                    if(dataManager.playerOneMoney >= moneyWinLimit)
+                    {
+                        uiManager.Winner(player, discardOne.Count);
+                    }
+                    else { Debug.Log("Not quite there yet"); }
+                }
+                else
+                {
+                    if (dataManager.playerTwoMoney >= moneyWinLimit)
+                    {
+                        uiManager.Winner(player, discardTwo.Count);
+                    }
+                    else { Debug.Log("Not quite there yet"); }
+                }
+                break;
+            case "Prestige":
+                Debug.Log("Win by prestige");
+                if (player == 0)
+                {
+                    if (dataManager.playerOneScore >= prestigeWinLimit)
+                    {
+                        uiManager.Winner(player, discardOne.Count);
+                    }
+                    else { Debug.Log("Not quite there yet"); }
+                }
+                else
+                {
+                    if (dataManager.playerTwoScore >= prestigeWinLimit)
+                    {
+                        uiManager.Winner(player, discardTwo.Count);
+                    }
+                    else { Debug.Log("Not quite there yet"); }
+                }
+                break;
+            case "Time":
+                Debug.Log("Win by time");
+                if (player == 0)
+                {
+                    //Yet to implement
+                }
+                else
+                {
+                    //Yet to implement
+                }
+                break;
+        }
+    }
+
+    private void Winner(int player, string winCondition)
+    {
+
     }
 
     private int ReturnActivePlayer()
@@ -326,76 +415,133 @@ public class GameManager : MonoBehaviour
         {
             if (ReturnActivePlayer() == 0)
             {
-                for (int i = 0; i < numCards; i++)
-                {
-                    if (deckOne.Count > 0)
-                    {
-                        CardData drawnCard = deckOne[0];
-                        deckOne.RemoveAt(0);
-                        handOne.Add(drawnCard);
-                        InstantiateCardPrefab(drawnCard, ReturnActivePlayer());
+                int combineResult = 0;
 
-                        uiManager.UpdateUI("Deck", "0");
+                if(dataManager.playerOneMoney >= cardCost)
+                {
+                    for (int i = 0; i < numCards; i++)
+                    {
+                        if (deckOne.Count > 0)
+                        {
+                            dataManager.playerOneMoney -= cardCost;
+                            combineResult += cardCost;
+                            CardData drawnCard = deckOne[0];
+                            deckOne.RemoveAt(0);
+                            handOne.Add(drawnCard);
+                            drawnCard.deckPos = i;
+                            InstantiateCardPrefab(drawnCard, ReturnActivePlayer());
+
+                            uiManager.UpdateUI("Deck", "0");
+                            uiManager.UpdateUI("Money", "0");
+                        }
                     }
+
                 }
 
-                playerOneUpdateUI[2].text = string.Format("<color=red>-{0}</color>", numCards.ToString());
-                StartCoroutine(RemoveAfterSeconds(2, playerOneUpdateUI[2].gameObject));
+                if(combineResult > 0)
+                {
+                    playerOneUpdateUI[0].text = string.Format("<color=red>-${0}</color>", combineResult);
+                    StartCoroutine(RemoveAfterSeconds(2, playerOneUpdateUI[0].gameObject));
+                    playerOneUpdateUI[2].text = string.Format("<color=red>-{0}</color>", numCards.ToString());
+                    StartCoroutine(RemoveAfterSeconds(2, playerOneUpdateUI[2].gameObject));
+                }                
             }
             else
             {
-                for (int i = 0; i < numCards; i++)
-                {
-                    if (deckTwo.Count > 0)
-                    {
-                        CardData drawnCard = deckTwo[0];
-                        deckTwo.RemoveAt(0);
-                        handTwo.Add(drawnCard);
-                        InstantiateCardPrefab(drawnCard, ReturnActivePlayer());
+                int combineResult = 0;
 
-                        uiManager.UpdateUI("Deck", "1");
+                if(dataManager.playerTwoMoney >= cardCost)
+                {
+                    for (int i = 0; i < numCards; i++)
+                    {
+                        if (deckTwo.Count > 0)
+                        {
+                            combineResult += cardCost;
+                            dataManager.playerTwoMoney -= cardCost;
+                            CardData drawnCard = deckTwo[0];
+                            deckTwo.RemoveAt(0);
+                            handTwo.Add(drawnCard);
+                            drawnCard.deckPos = i;
+                            InstantiateCardPrefab(drawnCard, ReturnActivePlayer());
+
+                            uiManager.UpdateUI("Deck", "1");
+                            uiManager.UpdateUI("Money", "1");
+                        }
                     }
                 }
 
-                playerTwoUpdateUI[2].text = string.Format("<color=red>-{0}</color>", numCards.ToString());
-                StartCoroutine(RemoveAfterSeconds(2, playerTwoUpdateUI[2].gameObject));
+                if(combineResult > 0)
+                {
+                    playerTwoUpdateUI[0].text = string.Format("<color=red>-${0}</color>", combineResult);
+                    StartCoroutine(RemoveAfterSeconds(2, playerTwoUpdateUI[0].gameObject));
+                    playerTwoUpdateUI[2].text = string.Format("<color=red>-{0}</color>", numCards.ToString());
+                    StartCoroutine(RemoveAfterSeconds(2, playerTwoUpdateUI[2].gameObject));
+                }                
             }
         }
     }
 
     public void DiscardCards(int numCards)
     {
+        int cardAmount = numCards;
+
         if (ReturnActivePlayer() == 0)
         {
+            int combineResult = 0;
+
             for (int i = handOne.Count - 1; i >= 0 && numCards > 0; i--)
             {
-                discardOne.Add(handOne[i]);
-                handOne.RemoveAt(i);
-                var child = handOneTransform.transform.GetChild(i);
-                Destroy(child.gameObject);
-                numCards--;
+                if(dataManager.playerOneMoney >= discardCost)
+                {
+                    dataManager.playerOneMoney -= discardCost;
+                    combineResult += discardCost;
+                    discardOne.Add(handOne[i]);
+                    handOne.RemoveAt(i);
+                    var child = handOneTransform.transform.GetChild(i);
+                    Destroy(child.gameObject);
+                    numCards--;
 
-                uiManager.UpdateUI("Discard", "0");
+                    uiManager.UpdateUI("Discard", "0");
+                    uiManager.UpdateUI("Money", "0");
+                }                
             }
 
-            playerOneUpdateUI[3].text = string.Format("+" + numCards.ToString());
-            StartCoroutine(RemoveAfterSeconds(2, playerOneUpdateUI[3].gameObject));
+            if(combineResult > 0)
+            {
+                playerOneUpdateUI[0].text = string.Format("<color=red>-${0}</color>", combineResult);
+                StartCoroutine(RemoveAfterSeconds(2, playerOneUpdateUI[0].gameObject));
+                playerOneUpdateUI[3].text = string.Format("+" + cardAmount.ToString());
+                StartCoroutine(RemoveAfterSeconds(2, playerOneUpdateUI[3].gameObject));
+            }            
         }
         else
         {
+            int combineResult = 0;
+
             for (int i = handTwo.Count - 1; i >= 0 && numCards > 0; i--)
             {
-                discardTwo.Add(handTwo[i]);
-                handTwo.RemoveAt(i);
-                var child = handTwoTransform.transform.GetChild(i);
-                Destroy(child.gameObject);
-                numCards--;
+                if(dataManager.playerTwoMoney >= discardCost)
+                {
+                    dataManager.playerTwoMoney -= discardCost;
+                    combineResult += discardCost;
+                    discardTwo.Add(handTwo[i]);
+                    handTwo.RemoveAt(i);
+                    var child = handTwoTransform.transform.GetChild(i);
+                    Destroy(child.gameObject);
+                    numCards--;
 
-                uiManager.UpdateUI("Discard", "1");
+                    uiManager.UpdateUI("Discard", "1");
+                    uiManager.UpdateUI("Money", "1");
+                }                
             }
 
-            playerTwoUpdateUI[3].text = string.Format("+" + numCards.ToString());
-            StartCoroutine(RemoveAfterSeconds(2, playerTwoUpdateUI[3].gameObject));
+            if (combineResult > 0)
+            {
+                playerTwoUpdateUI[0].text = string.Format("<color=red>-${0}</color>", combineResult);
+                StartCoroutine(RemoveAfterSeconds(2, playerTwoUpdateUI[0].gameObject));
+                playerTwoUpdateUI[3].text = string.Format("+" + cardAmount.ToString());
+                StartCoroutine(RemoveAfterSeconds(2, playerTwoUpdateUI[3].gameObject));
+            }            
         }
     }
 
@@ -447,9 +593,10 @@ public class GameManager : MonoBehaviour
                 //UI Stuff
                 dataManager.playerOneMoney -= cardData.purchaseValue;
                 dataManager.playerOneScore += cardData.prestigeValue;
+                dataManager.playerOneTotalMoney += cardData.purchaseValue;
                 uiManager.UpdateUI("Money", "0");
                 uiManager.UpdateUI("Score", "0");
-                playerOneUpdateUI[0].text = string.Format("-" + cardData.purchaseValue.ToString());
+                playerOneUpdateUI[0].text = string.Format("-$" + cardData.purchaseValue.ToString());
                 StartCoroutine(RemoveAfterSeconds(2, playerOneUpdateUI[0].gameObject));
                 playerOneUpdateUI[1].text = string.Format("+" + cardData.prestigeValue.ToString());
                 StartCoroutine(RemoveAfterSeconds(2, playerOneUpdateUI[1].gameObject));
@@ -469,6 +616,7 @@ public class GameManager : MonoBehaviour
                 Debug.Log("Building");
                 //Building logic
                 GameObject go = Instantiate(buildingBasePrefab, buildAreaOne);
+                go.transform.rotation = Quaternion.Euler(0, 180, 0);
                 Transform buildingParent = go.transform.GetChild(1).transform;
                 Instantiate(building, buildingParent);
             }
@@ -486,9 +634,10 @@ public class GameManager : MonoBehaviour
                     //UI Stuff
                     dataManager.playerTwoMoney -= cardData.purchaseValue;
                     dataManager.playerTwoScore += cardData.prestigeValue;
+                    dataManager.playerTwoTotalMoney += cardData.purchaseValue;
                     uiManager.UpdateUI("Money", "1");
                     uiManager.UpdateUI("Score", "1");
-                    playerTwoUpdateUI[0].text = string.Format("-" + cardData.purchaseValue.ToString());
+                    playerTwoUpdateUI[0].text = string.Format("-$" + cardData.purchaseValue.ToString());
                     StartCoroutine(RemoveAfterSeconds(2, playerTwoUpdateUI[0].gameObject));
                     playerTwoUpdateUI[1].text = string.Format("+" + cardData.prestigeValue.ToString());
                     StartCoroutine(RemoveAfterSeconds(2, playerTwoUpdateUI[1].gameObject));
@@ -529,16 +678,18 @@ public class GameManager : MonoBehaviour
                 if(playOne[i].diceValue == result)
                 {
                     Debug.Log(playOne[i].cardName + " was just activated");
-                    playOne[i].cardAbility.Ability("self", playOne[i].cardAbility.abilityAmount);
+                    ActivateCard(player, playOne[i].cardType, playOne[i].cardAbility.abilityAmount);
+                    //playOne[i].cardAbility.Ability("self", playOne[i].cardAbility.abilityAmount);
                     combineResult += playOne[i].cardAbility.abilityAmount;
                     uiManager.UpdateUI("Money", "0");
+                    uiManager.UpdateUI("Money", "1");
                     audioManager.Play("money");
                 }
             }
 
             if(combineResult > 0)
             {
-                playerOneUpdateUI[0].text = string.Format("+{0}", combineResult);
+                playerOneUpdateUI[0].text = string.Format("+${0}", combineResult);
                 StartCoroutine(RemoveAfterSeconds(2, playerOneUpdateUI[0].gameObject));
             }
         }
@@ -551,18 +702,93 @@ public class GameManager : MonoBehaviour
                 if (playTwo[i].diceValue == result)
                 {
                     Debug.Log(playTwo[i].cardName + "Card was just activated");
-                    playTwo[i].cardAbility.Ability("self", playTwo[i].cardAbility.abilityAmount);
+                    ActivateCard(player, playTwo[i].cardType, playTwo[i].cardAbility.abilityAmount);
+                    //playTwo[i].cardAbility.Ability("self", playTwo[i].cardAbility.abilityAmount);
                     combineResult += playTwo[i].cardAbility.abilityAmount;
-                    uiManager.UpdateUI("Money", "1");                    
+                    uiManager.UpdateUI("Money", "1");
+                    uiManager.UpdateUI("Money", "0");
                     audioManager.Play("money");
                 }
             }
 
             if(combineResult > 0)
             {
-                playerTwoUpdateUI[0].text = string.Format("+{0}", combineResult);
+                playerTwoUpdateUI[0].text = string.Format("+${0}", combineResult);
                 StartCoroutine(RemoveAfterSeconds(2, playerTwoUpdateUI[0].gameObject));
             }            
+        }
+    }
+
+    private void ActivateCard(int player, CardData.CardType type, int amount)
+    {
+        switch (type)
+        {
+            case CardData.CardType.Gain:
+                if(player == 0) 
+                { 
+                    dataManager.playerOneMoney += amount;
+                    playerOneUpdateUI[0].text = string.Format("+${0}", amount);
+                    StartCoroutine(RemoveAfterSeconds(2, playerOneUpdateUI[0].gameObject));
+                } 
+                else 
+                { 
+                    dataManager.playerTwoMoney += amount;
+                    playerTwoUpdateUI[0].text = string.Format("+${0}", amount);
+                    StartCoroutine(RemoveAfterSeconds(2, playerTwoUpdateUI[0].gameObject));
+                }
+                break;
+            case CardData.CardType.Take:
+                if (player == 0)
+                {
+                    if (dataManager.playerTwoMoney >= amount)
+                    {
+                        dataManager.playerTwoMoney -= amount;
+                        playerTwoUpdateUI[0].text = string.Format("<color=red>-${0}</color>", amount);
+                        StartCoroutine(RemoveAfterSeconds(2, playerTwoUpdateUI[0].gameObject));
+
+                        dataManager.playerOneMoney += amount;
+                        playerOneUpdateUI[0].text = string.Format("+${0}", amount);
+                        StartCoroutine(RemoveAfterSeconds(2, playerOneUpdateUI[0].gameObject));
+                    }
+                }
+                else 
+                {
+                    if (dataManager.playerOneMoney >= amount)
+                    {
+                        dataManager.playerOneMoney -= amount;
+                        playerOneUpdateUI[0].text = string.Format("<color=red>-${0}</color>", amount);
+                        StartCoroutine(RemoveAfterSeconds(2, playerOneUpdateUI[0].gameObject));
+
+                        dataManager.playerTwoMoney += amount;
+                        playerTwoUpdateUI[0].text = string.Format("+${0}", amount);
+                        StartCoroutine(RemoveAfterSeconds(2, playerTwoUpdateUI[0].gameObject));
+                    }
+                }
+                break;
+            case CardData.CardType.Profit:
+                if(player == 0)
+                {
+                    int newAmount = Mathf.RoundToInt(amount / 2);
+                    dataManager.playerOneMoney += amount;
+                    playerOneUpdateUI[0].text = string.Format("<color=#1a6e08>+${0}</color>", amount);
+                    StartCoroutine(RemoveAfterSeconds(2, playerOneUpdateUI[0].gameObject));
+
+                    dataManager.playerTwoMoney += newAmount;
+                    playerTwoUpdateUI[0].text = string.Format("<color=#1a6e08>+${0}</color>", newAmount);
+                    StartCoroutine(RemoveAfterSeconds(2, playerTwoUpdateUI[0].gameObject));
+                }
+                else
+                {
+                    int newAmount = Mathf.RoundToInt(amount / 2);
+                    dataManager.playerOneMoney += newAmount;
+                    playerOneUpdateUI[0].text = string.Format("<color=#1a6e08>+${0}</color>", newAmount);
+                    StartCoroutine(RemoveAfterSeconds(2, playerOneUpdateUI[0].gameObject));
+
+                    dataManager.playerTwoMoney += amount;
+                    playerTwoUpdateUI[0].text = string.Format("<color=#1a6e08>+${0}</color>", amount);
+                    StartCoroutine(RemoveAfterSeconds(2, playerTwoUpdateUI[0].gameObject));
+                }
+                break;   
         }
     }
 
@@ -593,14 +819,16 @@ public class GameManager : MonoBehaviour
         {
             if(dice[i].GetComponent<Rigidbody>().velocity.magnitude < 0.01)
             {
-                dice[i].gameObject.SetActive(false);
+                Debug.Log(dice[i].transform.position);
+                dice[i].transform.position = diceSpawnpoints[i].transform.position;
+                Debug.Log(dice[i].transform.position);
+                dice[i].gameObject.SetActive(false);                
             }
         }        
     }
 
     public void StartDiceCheck()
     {
-        Debug.Log("DiceCheckk");
         if (dataManager.diceIsCounted)
         {
             InvokeRepeating("CheckDice", 1.5f, .1f);
@@ -622,7 +850,10 @@ public class GameManager : MonoBehaviour
 
                 CancelInvoke();
                 dataManager.diceIsCounted = false;
-                if(dataManager.numberOfThrows == 0) 
+                StartCoroutine(ResetAfterSeconds(1, 0));
+                StartCoroutine(ResetAfterSeconds(1, 1));
+
+                if (dataManager.numberOfThrows == 0) 
                 { 
                     StartCoroutine(RemoveAfterSeconds(1, dice[0].gameObject)); 
                     StartCoroutine(RemoveAfterSeconds(1, dice[1].gameObject)); 
@@ -647,9 +878,12 @@ public class GameManager : MonoBehaviour
                     dataManager.diceResult[0] = 0;
                     CancelInvoke();
                     dataManager.diceIsCounted = false;
+                    StartCoroutine(ResetAfterSeconds(1, 0));
                 }
             }
         }
+
+        CheckForWinner(ReturnActivePlayer());
     }
 
     public void ChangeNumberOfThrows(int newNumber) { numberOfThrowsLeft = newNumber; }
@@ -672,6 +906,13 @@ public class GameManager : MonoBehaviour
         obj.SetActive(true);
         yield return new WaitForSeconds(seconds);
         obj.SetActive(false);
+    }
+
+    private IEnumerator ResetAfterSeconds(int seconds, int diceIndex)
+    {
+        yield return new WaitForSeconds(seconds);
+        dice[diceIndex].transform.position = diceSpawnpoints[diceIndex].transform.position;
+
     }
 
     public void DebugPanel()

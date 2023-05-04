@@ -6,6 +6,7 @@ public class HorizontalLayout3D : MonoBehaviour
     public float offset = 0.5f; // Offset from the center of the layout
 
     public bool isCardParent;
+    public bool isPlaceParent;
     public int maxItemsPerRow = 0;
 
     private void Start()
@@ -49,6 +50,7 @@ public class HorizontalLayout3D : MonoBehaviour
                 // Set position of the child object
                 Vector3 pos = startPos + transform.right * (renderer.bounds.size.x * 0.5f);
                 child.position = pos;
+                if (isPlaceParent) { Debug.Log("This operation is not applicable"); } else { child.GetComponent<MouseHover>().originalPosition = pos; }
 
                 // Update starting position for the next child object
                 startPos += transform.right * (renderer.bounds.size.x + spacing);

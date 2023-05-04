@@ -24,7 +24,7 @@ MonoBehaviour:
   cardAbility:
     hasAbility: 1
     abilityAmount: 4
-    abilityDescription: Gain 4 dollars when you throw this number.
+    abilityDescription: Gain 4 dollars
   buildingModel: {fileID: 7806897602871328894, guid: 998b325bed21e11448652120fecf1821, type: 3}
   deckPos: 0
   player: 0

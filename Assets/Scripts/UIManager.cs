@@ -12,6 +12,8 @@ public class UIManager : MonoBehaviour
     [SerializeField] private TMP_InputField playerOneInput;
     [SerializeField] private TMP_InputField playerTwoInput;
 
+    [SerializeField] private TMP_Dropdown dropdown;
+
     [HideInInspector] public string playerOneName;
     [HideInInspector] public string playerTwoName;
 
@@ -42,6 +44,15 @@ public class UIManager : MonoBehaviour
     [SerializeField] private AnimationClip fadeIn;
     [SerializeField] private AnimationClip fadeOut;
 
+    [Header("Winning")]
+    [SerializeField] private GameObject winCanvas;
+    [SerializeField] private TextMeshProUGUI winName;
+    [SerializeField] private TextMeshProUGUI stat1;
+    [SerializeField] private TextMeshProUGUI stat2;
+    [SerializeField] private TextMeshProUGUI stat3;
+    [SerializeField] private GameObject playerOneHand;
+    [SerializeField] private GameObject playerTwoHand;
+
     public List<GameObject> activePlayer;
     private void Start()
     {
@@ -54,6 +65,11 @@ public class UIManager : MonoBehaviour
         {
             Debug.Log("Player name is empty");
         }
+
+        SetWinCondition(0);
+        if (dropdown != null) { dropdown.onValueChanged.AddListener(SetWinCondition); }
+
+        Color darkgreen = new Color(25, 107, 48, 0.8f);
     }
 
     public void StorePlayerNames()
@@ -135,10 +151,10 @@ public class UIManager : MonoBehaviour
                 switch (int.Parse(textToAdd))
                 {
                     case 0:
-                        playerOneMoneyText.text = DataManager.Instance.playerOneMoney.ToString();
+                        playerOneMoneyText.text = string.Format("<color=#1a6e08>$</color>{0}", DataManager.Instance.playerOneMoney.ToString());
                         break;
                     case 1:
-                        playerTwoMoneyText.text = DataManager.Instance.playerTwoMoney.ToString();
+                        playerTwoMoneyText.text = string.Format("<b><color=#1a6e08>$</color></b>{0}", DataManager.Instance.playerTwoMoney.ToString());
                         break;
                 }
                 break;
@@ -151,10 +167,47 @@ public class UIManager : MonoBehaviour
         SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
     }
 
+    public void QuitGame()
+    {
+        Application.Quit();
+    }
+
+    public void SpecificScene(string sceneName)
+    {
+        SceneManager.LoadScene(sceneName);
+    }
+
     public void PausePlayButton()
     {
         if (playButton.activeSelf) { pauseButton.SetActive(true); playButton.SetActive(false); }
         else { playButton.SetActive(true); pauseButton.SetActive(false); }
+    }
+
+    void SetWinCondition(int index)
+    {
+        if(dropdown != null) DataManager.Instance.winCondition = dropdown.options[index].text;
+    }
+
+    public void Winner(int player, int discardAmount)
+    {
+        if(player == 0)
+        {
+            winName.text = playerOneNameText.text;
+            stat1.text = string.Format("You have spent ${0} building your city", DataManager.Instance.playerOneTotalMoney);
+            stat2.text = string.Format("You accumulated {0} prestige points", DataManager.Instance.playerOneScore);
+            stat3.text = string.Format("You discarded {0} cards", discardAmount);
+        }
+        else
+        {
+            winName.text = playerTwoNameText.text;
+            stat1.text = string.Format("You have spent ${0} building your city", DataManager.Instance.playerTwoTotalMoney);
+            stat2.text = string.Format("You accumulated {0} prestige points", DataManager.Instance.playerTwoScore);
+            stat3.text = string.Format("You discarded {0} cards", discardAmount);
+        }
+
+        playerOneHand.SetActive(false);
+        playerTwoHand.SetActive(false);
+        winCanvas.SetActive(true);
     }
 
     public IEnumerator PopUp(int seconds, GameObject obj)

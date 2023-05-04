@@ -11,7 +11,7 @@ public class DiceSide : MonoBehaviour
 
     private Dice dice;
 
-    private int preventFirstRoll = 1;
+    //private int preventFirstRoll = 1;
 
     private void Start()
     {

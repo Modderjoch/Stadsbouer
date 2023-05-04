@@ -39,6 +39,13 @@ public class CardData : ScriptableObject
         public int abilityAmount;
         public string abilityDescription;
 
+        public enum CardType
+        {
+            Gain,
+            Take,
+            Profit
+        }
+
         public void Ability(string abilityType, int amount)
         {
             switch (abilityType)

@@ -15,6 +15,7 @@ public class CardPrefab : MonoBehaviour
     [HideInInspector] public int player;
     [HideInInspector] public int itemPos;
     private CardData.CardType type;
+    private int cardAbilityAmount;
     public GameObject buildingPrefab;
     public Transform particleParent;
 
@@ -50,6 +51,7 @@ public class CardPrefab : MonoBehaviour
             int cardPos = cardData.deckPos;
             GameObject buildingModel = cardData.buildingModel;
             type = cardData.cardType;
+            cardAbilityAmount = cardData.cardAbility.abilityAmount;
 
             cardNameText.text = cardName;
             cardArt.sprite = cardImage;
@@ -102,6 +104,22 @@ public class CardPrefab : MonoBehaviour
     {
         Debug.Log("Playing card" + name);
         GameManager.Instance.PlayCard(DataManager.Instance.currentPlayerIndex, gameObject, itemPos, cardData, buildingPrefab);
+    }
+
+    public void ActivateCard()
+    {
+        switch (type)
+        {
+            case CardData.CardType.Gain:
+                Debug.Log("Gain");
+                break;
+            case CardData.CardType.Take:
+                Debug.Log("Take");
+                break;
+            case CardData.CardType.Profit:
+                Debug.Log("Profit");
+                break;
+        }
     }
 
     public void RemoveFromDeck()

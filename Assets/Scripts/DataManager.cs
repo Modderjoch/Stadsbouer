@@ -13,8 +13,11 @@ public class DataManager : MonoBehaviour
 
     public int playerOneMoney;
     public int playerTwoMoney;
+    public int playerOneTotalMoney;
+    public int playerTwoTotalMoney;
 
     public List<string> players;
+    public string winCondition;
 
     public static DataManager Instance;
 
@@ -30,7 +33,7 @@ public class DataManager : MonoBehaviour
     public List<int> diceResult = new List<int>(2);
     public bool diceIsCounted = false;
     public int numberOfThrows = 1;
-    public int numberOfCards = 2;
+    public int numberOfCards = 1;
 
     private void Awake()
     {

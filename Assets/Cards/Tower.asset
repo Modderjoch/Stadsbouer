@@ -24,7 +24,7 @@ MonoBehaviour:
   cardAbility:
     hasAbility: 1
     abilityAmount: 2
-    abilityDescription: Gain 2 dollars when this number is thrown.
+    abilityDescription: Take two dollars off your opponent
   buildingModel: {fileID: 919132149155446097, guid: f11bffc95c41c404d82c8a423ef7ea68, type: 3}
   deckPos: 0
   player: 0

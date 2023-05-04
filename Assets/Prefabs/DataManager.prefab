@@ -48,6 +48,20 @@ MonoBehaviour:
   playerTwoName: 
   playerOneScore: 0
   playerTwoScore: 0
+  playerOneMoney: 5
+  playerTwoMoney: 5
   players: []
   currentPlayerIndex: 0
+  playerOneDeck: []
+  playerTwoDeck: []
+  unlockedCards:
+  - {fileID: 11400000, guid: bcd6c419351da9744b8499e8dbe5be9b, type: 2}
+  - {fileID: 11400000, guid: 6c637c286a7bd3e4a9b0dbd30982c79c, type: 2}
+  - {fileID: 11400000, guid: d857a5c7069999f41a242cd065c64556, type: 2}
+  - {fileID: 11400000, guid: dfa3e6fee0636104787cc1d5d5c6269e, type: 2}
+  - {fileID: 11400000, guid: 7d09979224a01a14ba2b2306cde0a52c, type: 2}
+  - {fileID: 11400000, guid: 94edbd25bd7246945bccf3f18b11ca36, type: 2}
   diceResult: 000000000000000000000000
+  diceIsCounted: 0
+  numberOfThrows: 1
+  numberOfCards: 1

@@ -17,15 +17,14 @@ MonoBehaviour:
   diceImage: {fileID: 21300000, guid: 6c0d18646cae8f64287150c99ba9fd04, type: 3}
   cardName: Capitol Building
   cardID: 0
-  purchaseValue: 4
+  purchaseValue: 2
   diceValue: 2
   prestigeValue: 2
   cardType: 2
   cardAbility:
     hasAbility: 1
     abilityAmount: 3
-    abilityDescription: Gain three dollars from any other player that throws this
-      number.
+    abilityDescription: Both you and your opponent gain three dollars
   buildingModel: {fileID: 919132149155446097, guid: f70956aee51faac4bb5a5bce2ac99ccf, type: 3}
   deckPos: 0
   player: 0
