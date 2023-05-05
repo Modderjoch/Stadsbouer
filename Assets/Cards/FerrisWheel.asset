@@ -15,7 +15,7 @@ MonoBehaviour:
   cardImage: {fileID: 21300000, guid: 4a8e66b91f933a9439e565a1199bf339, type: 3}
   cardBackground: {fileID: 21300000, guid: 9c435388a026bb94884b1e3671719d01, type: 3}
   diceImage: {fileID: 21300000, guid: a6bb6746a88ae744f82d0545b9b26fde, type: 3}
-  cardName: Ferris Wheel
+  cardName: FerrisWheel
   cardID: 20
   purchaseValue: 5
   diceValue: 6

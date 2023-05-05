@@ -15,7 +15,7 @@ MonoBehaviour:
   cardImage: {fileID: 21300000, guid: 7152e9b5e7382214689799ed5a6bd282, type: 3}
   cardBackground: {fileID: 21300000, guid: 9c435388a026bb94884b1e3671719d01, type: 3}
   diceImage: {fileID: 21300000, guid: d3379df51d9bdb44a915bcd801d5d015, type: 3}
-  cardName: Statue of Liberty
+  cardName: StatueOfLiberty
   cardID: 70
   purchaseValue: 3
   diceValue: 1

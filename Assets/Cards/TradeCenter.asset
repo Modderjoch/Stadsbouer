@@ -15,7 +15,7 @@ MonoBehaviour:
   cardImage: {fileID: 21300000, guid: 2f918dd43598c7e488158f7ad6bb4f65, type: 3}
   cardBackground: {fileID: 21300000, guid: a164a4ad6d201d74f9e1e939ce584a8e, type: 3}
   diceImage: {fileID: 21300000, guid: 6c0d18646cae8f64287150c99ba9fd04, type: 3}
-  cardName: Trade Center
+  cardName: TradeCenter
   cardID: 80
   purchaseValue: 7
   diceValue: 2

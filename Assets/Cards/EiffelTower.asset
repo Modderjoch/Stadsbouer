@@ -15,7 +15,7 @@ MonoBehaviour:
   cardImage: {fileID: 21300000, guid: d0023c69483edd14f9a58ab7838351aa, type: 3}
   cardBackground: {fileID: 21300000, guid: a164a4ad6d201d74f9e1e939ce584a8e, type: 3}
   diceImage: {fileID: 21300000, guid: d3379df51d9bdb44a915bcd801d5d015, type: 3}
-  cardName: Eiffel Tower
+  cardName: EiffelTower
   cardID: 50
   purchaseValue: 9
   diceValue: 1

@@ -15,7 +15,7 @@ MonoBehaviour:
   cardImage: {fileID: 21300000, guid: d8ec9f14c0dd27c4dbde141757e3fcc8, type: 3}
   cardBackground: {fileID: 21300000, guid: 383a694b1819f5d47a0393d1508517fc, type: 3}
   diceImage: {fileID: 21300000, guid: b775eefc2a16acf4baad8b6cb53a4a39, type: 3}
-  cardName: Construction Site
+  cardName: ConstructionSite
   cardID: 60
   purchaseValue: 3
   diceValue: 5
