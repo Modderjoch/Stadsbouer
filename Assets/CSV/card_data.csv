@@ -1,11 +1,11 @@
 Card Name;Card ID;Purchase Value;Dice Value;Prestige Value;Card Type;Has Ability;Ability Amount;Ability Description;Card Image;Card Background;Dice Image;Building Model
 Bank;10;4;3;2;Gain;TRUE;2;Gain two dollars;ThumbnailBank.png;CardBackground3.png;dicethree.png;BankBuilding.fbx
-BusinessDistrict;40;7;5;4;Gain;TRUE;4;Gain four dollars;ThumbnailBusiness.png;CardBackground3.png;dicefive.png;BusinessDistrict.fbx
-CapitolBuilding;0;2;2;2;Profit;TRUE;3;You gain three dollars whereas your opponent gains one;ThumbnailCapitol.png;CardBackground1.png;dicetwo.png;CapitolBuilding.fbx
+Business District;40;7;5;4;Gain;TRUE;4;Gain four dollars;ThumbnailBusiness.png;CardBackground3.png;dicefive.png;BusinessDistrict.fbx
+Capitol Building;0;2;2;2;Profit;TRUE;3;You gain three dollars whereas your opponent gains one;ThumbnailCapitol.png;CardBackground1.png;dicetwo.png;CapitolBuilding.fbx
 Preview;1000;0;0;0;Gain;FALSE;0;Preview;;;;
-ConstructionSite;60;3;5;0;Profit;FALSE;2;You gain two dollars whereas your opponent gains one;ThumbnailConstruction.png;CardBackground1.png;dicefive.png;ConstructionSite.fbx
-EiffelTower;50;9;1;6;Gain;TRUE;5;Gain five dollars;ThumbnailEiffel.png;CardBackground3.png;diceone.png;EiffelTower.fbx
-FerrisWheel;20;5;6;8;Take;TRUE;3;Take three dollars off your opponent;ThumbnailFerris.png;CardBackground.png;dicesix.png;FerrisWheel.fbx
-StatueOfLiberty;70;3;1;5;Take;FALSE;2;Take two dollars off your opponent;ThumbnailStatueOfLiberty.png;CardBackground.png;diceone.png;StatueOfLiberty.fbx
+Construction Site;60;3;5;0;Profit;FALSE;2;You gain two dollars whereas your opponent gains one;ThumbnailConstruction.png;CardBackground1.png;dicefive.png;ConstructionSite.fbx
+Eiffel Tower;50;9;1;6;Gain;TRUE;5;Gain five dollars;ThumbnailEiffel.png;CardBackground3.png;diceone.png;EiffelTower.fbx
+Ferris Wheel;20;5;6;8;Take;TRUE;3;Take three dollars off your opponent;ThumbnailFerris.png;CardBackground.png;dicesix.png;FerrisWheel.fbx
+Statue of Liberty;70;3;1;5;Take;FALSE;2;Take two dollars off your opponent;ThumbnailStatueOfLiberty.png;CardBackground.png;diceone.png;StatueOfLiberty.fbx
 Tower;30;4;4;3;Take;TRUE;2;Take two dollars off your opponent;ThumbnailTower.png;CardBackground.png;dicefour.png;Tower.fbx
-TradeCenter;80;7;2;2;Gain;TRUE;5;Gain five dollars;ThumbnailTradeCenter.png;CardBackground3.png;dicetwo.png;TradeCenter.fbx
+Trade Center;80;7;2;2;Gain;TRUE;5;Gain five dollars;ThumbnailTradeCenter.png;CardBackground3.png;dicetwo.png;TradeCenter.fbx

@@ -34,7 +34,8 @@ public class CsvToScriptableObject : MonoBehaviour
             {
                 // If asset doesn't exist, create new ScriptableObject
                 cardData = Instantiate(_cardDataTemplate);
-                cardData.name = cardName;
+                string itemName = cardName.Replace(" ", "");
+                cardData.name = itemName;
                 AssetDatabase.CreateAsset(cardData, assetPath);
             }
 
